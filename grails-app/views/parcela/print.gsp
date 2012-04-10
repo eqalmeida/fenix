@@ -8,6 +8,7 @@
     </head>
     <body>
         <div class="body">
+          <img alt="logo" height="100"  src="${resource(dir:'images', file: 'printlogo.jpg')}" />
           <g:if test="${parcelaInstance?.pago}">
           <h1>Recibo de Parcela - Cod: ${fieldValue(bean: parcelaInstance, field: "id")}</h1>
           </g:if>
@@ -41,7 +42,7 @@
 
                             <td valign="top" class="value"> <g:formatNumber number="${parcelaInstance.valor}" type="currency" currencyType="BRL" /></td>
 
-                            <td valign="top" class="name">Cód Empréstimo</td>
+                            <td valign="top" class="name">Cód Transação</td>
 
                             <td valign="top" class="value"> ${parcelaInstance.emprestimo.id}</td>
 
@@ -61,9 +62,13 @@
 
                         <tr class="prop">
 
+                          <td valign="top" class="name"><g:message code="parcela.acrescimos.label" default="Acrescimos" /></td>
+
+                            <td valign="top" class="value"> <g:formatNumber number="${parcelaInstance.acrescimos}" type="currency" currencyType="BRL" /></td>
+
                             <td valign="top" class="name">Recebido por:</td>
                             
-                            <td colspan="3" valign="top" class="value">${parcelaInstance?.usuario?.encodeAsHTML()}</td>
+                            <td valign="top" class="value">${parcelaInstance?.usuario?.encodeAsHTML()}</td>
                             
                         </tr>
                             </g:if>

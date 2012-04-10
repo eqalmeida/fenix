@@ -1,7 +1,7 @@
 
 <%@ page import="fenix.Emprestimo; fenix.Observacao" %>
 
-<h1>Alterar Status do Empréstimo</h1>
+<h1>Alterar Status da Transação</h1>
 
 <g:form>
 

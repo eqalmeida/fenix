@@ -6,6 +6,7 @@ class Parcela {
     Parcela parcelaAnt
     int numero
     Date vencimento
+    Date previsaoDePagamento
     BigDecimal valor
     BigDecimal taxaJurosAtraso
     BigDecimal multaAtraso
@@ -20,8 +21,9 @@ class Parcela {
     static constraints = {
         emprestimo()
         parcelaAnt(nullable:true)
-        numero(nullable:false, range:1..100)
+        numero(nullable:false, range:1..150)
         vencimento(blank:false)
+        previsaoDePagamento(nullable: true)
         valor(blank:false, scale:2)
         taxaJurosAtraso(scale:3, nullable:false)
         acrescimos()
@@ -30,6 +32,7 @@ class Parcela {
         pago()
         usuario(nullable:true)
     }
+
 
     BigDecimal getValorAtual(){
         this.valor + this.acrescimos

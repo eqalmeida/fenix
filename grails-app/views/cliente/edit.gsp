@@ -3,7 +3,6 @@
 <%@ page import="fenix.Cliente" %>
 <html>
     <head>
-        <resource:dateChooser/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'cliente.label', default: 'Cliente')}" />

@@ -10,9 +10,11 @@ class ClienteController {
 
     def list = {
         params.query= params.query?params.query:""
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def clientes = Cliente.findAllByNomeIlike("%"+params.query+"%", params)
-            [clienteInstanceList: clientes, clienteInstanceTotal: clientes.count(),query:params.query]
+        params.max = Math.min(params.max ? params.int('max') : 20, 100)
+        def clientes = Cliente.findAllByNomeIlikeOrId("%"+params.query+"%",params.int('query'), params)
+        def size = Cliente.findAllByNomeIlikeOrId("%"+params.query+"%",params.int('query')).size()
+        [clienteInstanceList: clientes, clienteInstanceTotal: size,query:params.query,
+         data: [[0, 10], [4, 5], null, [6, 2.5], [12, 10]]]
     }
 
     def create = {
@@ -24,7 +26,14 @@ class ClienteController {
     def save = {
         def clienteInstance = new Cliente(params)
         clienteInstance.saldo = 0.toBigDecimal()
-        if (clienteInstance.save(flush: true)) {
+        if(!clienteInstance.telefoneRes && !clienteInstance.telefoneCom && !clienteInstance.telefoneCel){
+
+            clienteInstance.errors.rejectValue("telefoneRes", "default.allTelefone.required", "Pelo menos um dos telefones deve ser informado! ")
+            render(view: "create", model: [clienteInstance: clienteInstance])
+            return
+
+        }
+        else if (clienteInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'cliente.label', default: 'Cliente'), clienteInstance.id])}"
             redirect(action: "show", id: clienteInstance.id)
         }
@@ -70,7 +79,17 @@ class ClienteController {
             def saldoBkp = clienteInstance.saldo
             clienteInstance.properties = params
             clienteInstance.saldo = saldoBkp
-            if (!clienteInstance.hasErrors() && clienteInstance.save(flush: true)) {
+
+            if(!clienteInstance.telefoneRes && !clienteInstance.telefoneCom && !clienteInstance.telefoneCel){
+
+                clienteInstance.errors.rejectValue("telefoneRes", "default.allTelefone.required", "Pelo menos um dos telefones deve ser informado! ")
+                render(view: "edit", model: [clienteInstance: clienteInstance])
+                return
+
+            }
+
+
+            else if (!clienteInstance.hasErrors() && clienteInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'cliente.label', default: 'Cliente'), clienteInstance.id])}"
                 redirect(action: "show", id: clienteInstance.id)
             }

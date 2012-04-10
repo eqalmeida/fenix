@@ -4,6 +4,8 @@ class Cliente {
 
     static hasMany = [emprestimos: Emprestimo]
 
+    static mapping = {emprestimos sort: 'id'}
+
     String nome
     String rg
     String cpf
@@ -30,18 +32,18 @@ class Cliente {
 
 
     static constraints = {
-        nome(maxSize: 100, unique:true, nullable:false)
-        rg(maxSize: 14, minSize: 6)
-        cpf(cpf:true, maxSize:15)
+        nome(maxSize: 100, unique:true, blank:false, minSize:4)
+        rg(maxSize: 14, minSize: 6, blank:false)
+        cpf(cpf:true, maxSize:15, blank:false, unique:true)
         telefoneRes(maxSize: 15, minSize: 8)
         telefoneCom(maxSize: 15, minSize: 8)
         telefoneCel(maxSize: 15, minSize: 8)
         email(maxSize: 100, email:true)
         fax(maxSize: 12, minSize: 8)
-        endereco(maxSize: 100)
+        endereco(maxSize: 100, blank:false, minSize:5)
         cep(maxSize: 12, minSize: 5)
-        bairro(maxSize: 100)
-        cidade(maxSize: 100)
+        bairro(maxSize: 100, blank:false, minSize:4)
+        cidade(maxSize: 100, blank:false, minSize:4)
         estado(maxSize: 3)
         ptoReferencia(maxSize: 100)
         residencia(inList:["Própria","Alugada","Financiada"])

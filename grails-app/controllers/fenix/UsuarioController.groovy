@@ -9,27 +9,30 @@ class UsuarioController {
     def acessoNegado ={}
 
     def login = {
-        if(params.login && params.password)
-        {
-            def usuario = Usuario.findByLoginAndSenha(params.login, params.password)
-            if (usuario){
-                session.usuario = usuario
-                /*
-                def config = Config.get(1)
-                if(config?.liberacao != this.codigo){
-                    def data = new GregorianCalendar()
-                    data.add(Calendar.MONTH,5)
-                    if(data.time > new Date()){
-                        redirect(controller:"usuario", action:"liberacao")
-                        return
+       
+        try{
+            if(params.login && params.password)
+            {
+                def usuario = Usuario.findByLoginAndSenha(params.login, params.password)
+                if (usuario){
+                    if(usuario.ativo){
+                        session.usuario = usuario
+                        if(session.actionName){
+                            redirect(controller:session.controllerName, action:session.actionName)
+                        }else{
+                            redirect(controller:"cliente", action:"list")
+                        }
+                    } else {
+                        flash.message = "Usuário bloqueado!"
                     }
+                }else{
+                    flash.message = "Login inválido!"
+                    // redirect(controller:"usuario", action:"login")
                 }
-                */
-                redirect(controller:"cliente", action:"list")
-            }else{
-                flash.message = "Login inválido!"
-               // redirect(controller:"usuario", action:"login")
             }
+        }catch(Exception e){
+            e.printStackTrace();
+            flash.message = "Erro de conexão!"
         }
     }
 

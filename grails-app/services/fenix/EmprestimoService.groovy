@@ -13,14 +13,39 @@ class EmprestimoService {
         if (emprestimo){
             if(emprestimo.status == 0){
                 def session = RequestContextHolder.currentRequestAttributes().getSession()
+
+                if(!emprestimo.intervalo){
+                    emprestimo.intervalo = 'mensal'
+                }
+
+
+                def dataBoleto = new GregorianCalendar()
+                if(!emprestimo.primeiroVencimento){
+                    dataBoleto.time = emprestimo.data
+
+                    if(emprestimo.intervalo == 'mensal'){
+                        dataBoleto.add(Calendar.MONTH,1)
+                    } else if(emprestimo.intervalo == 'quinzenal'){
+                        dataBoleto.add(Calendar.DATE,14)
+                    } else if(emprestimo.intervalo == 'semanal'){
+                        dataBoleto.add(Calendar.DATE,7)
+                    }else {
+                        throw new RuntimeException("Intervalo inválido")
+                    }
+
+                    emprestimo.primeiroVencimento = dataBoleto.time
+                }
                 emprestimo.status = 1
                 emprestimo.usuario = session.usuario
+
                 if(emprestimo.save(flush:true)){
                     if(emprestimo.especie.geraBoleto){
                         //Gera boleto
-                        def dataBoleto = new GregorianCalendar()
-                        dataBoleto.time = emprestimo.data
-                        def valorParcela = emprestimo.valorParcela
+                        dataBoleto.time = emprestimo.primeiroVencimento
+                        def valorParcela = emprestimo.valorParcela>0.0?emprestimo.valorParcela:emprestimo.valorParcelaEstimado
+                        if(valorParcela * emprestimo.numParcelas < (emprestimo.valorLiberado + emprestimo.tac) ){
+                                throw new RuntimeException("A soma das parcelas é inferior ao montante!");
+                        }
                         def boleto = null
                         def boletoAnt = null
                         for(par in 1..(emprestimo.numParcelas)){
@@ -32,25 +57,35 @@ class EmprestimoService {
                                 boleto.parcelaAnt = boletoAnt
                             }
                             //boleto.usuario = emprestimoInstance.usuario
-                            dataBoleto.add(Calendar.MONTH,1)
                             boleto.vencimento = dataBoleto.time
                             boleto.taxaJurosAtraso = emprestimo.tipoEmprestimo.taxaJurosAtraso
                             boleto.multaAtraso = emprestimo.tipoEmprestimo.multaAtraso
+
+                            if(emprestimo.intervalo == 'mensal'){
+                                dataBoleto.add(Calendar.MONTH,1)
+                            } else if(emprestimo.intervalo == 'quinzenal'){
+                                dataBoleto.add(Calendar.DATE,14)
+                            } else if(emprestimo.intervalo == 'semanal'){
+                                dataBoleto.add(Calendar.DATE,7)
+                            }else {
+                                throw new RuntimeException("Intervalo inválido")
+                            }
+
                             if(!boleto.save(flush:true)){
-                                new RuntimeException("Erro gerando parcelas").throw()
+                                throw new RuntimeException("Erro gerando parcelas")
                             }
                             boletoAnt = boleto
 
                         }
-                        def cliente = Cliente.get(emprestimo.cliente.id)
+                        /*                        def cliente = Cliente.get(emprestimo.cliente.id)
                         cliente.saldo -= emprestimo.montante
                         if(!cliente.save(flush:true)){
-                            new RuntimeException("Erro ao atualizar saldo").throw()
+                        throw new RuntimeException("Erro ao atualizar saldo")
                         }
-
+                         */
                     }
                 } else {
-                    new RuntimeException("Erro ao mudar de status").throw()
+                    throw new RuntimeException("Erro ao mudar de status")
                 }
             }
         }
@@ -102,32 +137,32 @@ class EmprestimoService {
             )
         """);
 
-/*        def emprestimo = Emprestimo.get(id)
+        /*        def emprestimo = Emprestimo.get(id)
         if(emprestimo && emprestimo.status > 0){
 
-            def data = new Date()
-            def quitado = true
+        def data = new Date()
+        def quitado = true
 
-            emprestimo.parcelas.each {
-                if(!it.pago){
-                    quitado = false
-                    if((it.vencimento - data) > 5 ){
-                        atrasado = true
-                    }
-                }
-            }
+        emprestimo.parcelas.each {
+        if(!it.pago){
+        quitado = false
+        if((it.vencimento - data) > 5 ){
+        atrasado = true
+        }
+        }
+        }
 
-            if(quitado && emprestimo.status > 0){
-                emprestimo.status = 7
-                emprestimo.save(flush:true)
-            }
+        if(quitado && emprestimo.status > 0){
+        emprestimo.status = 7
+        emprestimo.save(flush:true)
+        }
 
-            if(atrasado && emprestimo.status == 1){
-                emprestimo.status = 6
-                emprestimo.save(flush:true)
-            }
+        if(atrasado && emprestimo.status == 1){
+        emprestimo.status = 6
+        emprestimo.save(flush:true)
+        }
 
         }
-   */
+         */
     }
 }

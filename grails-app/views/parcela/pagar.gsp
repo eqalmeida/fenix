@@ -3,18 +3,17 @@
 <%@ page import="fenix.Parcela" %>
 <html>
     <head>
-      <resource:dateChooser/>
+        <calendar:resources lang="br" theme="tiger"/>
+        <g:javascript library="scriptaculous" />
+        <g:javascript library="mascara" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'parcela.label', default: 'Parcela')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <h1>Pagamento de Parcela</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -27,7 +26,7 @@
                 <g:hiddenField name="id" value="${parcelaInstance?.id}" />
                 <g:hiddenField name="version" value="${parcelaInstance?.version}" />
                 <div class="dialog">
-                    <table>
+                  <table cellpadding="0" cellspacing="0">
                         <tbody>
                         
                         <tr class="prop">
@@ -52,9 +51,11 @@
                                   <label for="dataPagamento"><g:message code="parcela.dataPagamento.label" default="Data Pagamento" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'dataPagamento', 'errors')}">
-                                    <richui:dateChooser 
-                                      onchange="${remoteFunction(action:'updateValue',update:'valorC', params:''datapag=' + this.value' )}"
-                                      name="dataPagamento" format="dd/MM/yyyy" value="" noSelection="['': '']" />
+                                    <calendar:datePicker
+                                      dateFormat="%d/%m/%Y" showTime="false"
+                                      name="dataPagamento" value="${parcelaInstance.dataPagamento}" 
+                                      onChange="${remoteFunction(action:'updateDataPag',update:'valorC', params:'\'datapag=\' + this.value', id:parcelaInstance.id )}"
+                                      />
                                 </td>
                             </tr>
 
@@ -83,7 +84,7 @@
                                   <label for="valorPago"><g:message code="parcela.valorPago.label" default="Valor Pago" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'valorPago', 'errors')}">
-                                    <g:textField name="valorPago" value="${fieldValue(bean: parcelaInstance, field: 'valorPago')}" />
+                                    <g:textField name="valorPago" onkeypress="mascara(this,moeda)" value="${fieldValue(bean: parcelaInstance, field: 'valorPago')}" />
                                 </td>
                             </tr>
                                                 

@@ -25,7 +25,9 @@
                             <g:sortableColumn property="numero" title="${message(code: 'parcela.numero.label', default: 'Numero')}" />
                         
                             <g:sortableColumn property="vencimento" title="${message(code: 'parcela.vencimento.label', default: 'Vencimento')}" />
-                        
+
+                            <g:sortableColumn property="previsaoDePagamento" title="${message(code: 'parcela.previsaoDePagamento.label', default: 'Previsão de pagamento')}" />
+
                             <g:sortableColumn property="valor" title="${message(code: 'parcela.valor.label', default: 'Valor')}" />
                         
                             <g:sortableColumn property="taxaJurosAtraso" title="${message(code: 'parcela.taxaJurosAtraso.label', default: 'taxaJurosAtraso')}" />
@@ -43,7 +45,9 @@
                             <td>${fieldValue(bean: parcelaInstance, field: "numero")}</td>
                         
                             <td><g:formatDate date="${parcelaInstance.vencimento}" /></td>
-                        
+
+                            <td><g:formatDate date="${parcelaInstance.previsaoDePagamento}" /></td>
+
                             <td>${fieldValue(bean: parcelaInstance, field: "valor")}</td>
                         
                             <td>${fieldValue(bean: parcelaInstance, field: "taxaJurosAtraso")}</td>

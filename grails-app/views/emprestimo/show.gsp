@@ -2,8 +2,6 @@
 <%@ page import="fenix.Emprestimo; fenix.Observacao" %>
 <html>
   <head>
-        <resource:dateChooser/>
-
   <g:javascript library="application" />
   <modalbox:modalIncludes />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,7 +15,7 @@
     <span class="menuButton"><g:link class="list" id="${emprestimoInstance.id}" target="_blank" action="print">Imprimir</g:link></span>
   </div>
   <div class="body">
-    <h1>Detalhes do Empréstimo Nº ${fieldValue(bean: emprestimoInstance, field: "id")}</h1>
+    <h1>Detalhes da Transação Nº ${fieldValue(bean: emprestimoInstance, field: "id")}</h1>
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
     </g:if>
@@ -25,15 +23,15 @@
       <table>
         <tbody>
 
-          <tr  >
+          <tr  class="prop" >
 
-        <td valign="top" class="name"><g:message code="emprestimo.cliente.label" default="Cliente" /></td>
+            <td valign="top" class="name"><g:message code="emprestimo.cliente.label" default="Cliente" /></td>
 
         <td valign="top" colspan="3" class="value"><g:link controller="cliente" action="show" id="${emprestimoInstance?.cliente?.id}">${emprestimoInstance?.cliente?.encodeAsHTML()}</g:link></td>
 
         </tr>
 
-        <tr  >
+        <tr  class="prop" >
           <td valign="top" class="name"><g:message code="emprestimo.tipoEmprestimo.label" default="Tipo Emprestimo" /></td>
 
         <td valign="top" class="value"><g:link controller="tipoEmprestimo" action="show" id="${emprestimoInstance?.tipoEmprestimo?.id}">${emprestimoInstance?.tipoEmprestimo?.encodeAsHTML()}</g:link></td>
@@ -44,7 +42,7 @@
 
         </tr>
 
-        <tr  >
+        <tr  class="prop" >
           <td valign="top" class="name"><g:message code="emprestimo.plano.label" default="Plano" /></td>
 
         <td valign="top" class="value"><g:link controller="plano" action="show" id="${emprestimoInstance?.plano?.id}">${emprestimoInstance?.plano?.encodeAsHTML()}</g:link></td>
@@ -55,18 +53,18 @@
 
         </tr>
 
-        <tr  >
+        <tr  class="prop" >
           <td valign="top" class="name"><g:message code="emprestimo.data.label" default="Data" /></td>
 
         <td valign="top" class="value"><g:formatDate date="${emprestimoInstance?.data}" format="dd/MM/yyyy" /></td>
 
-          <td valign="top" class="name"><g:message code="emprestimo.dataReg.label" default="Cadastrado em" /></td>
+        <td valign="top" class="name"><g:message code="emprestimo.dataReg.label" default="Cadastrado em" /></td>
 
         <td valign="top" class="value"><g:formatDate date="${emprestimoInstance?.dataReg}" format="dd/MM/yyyy" /></td>
 
         </tr>
 
-        <tr  >
+        <tr  class="prop" >
           <td valign="top" class="name"><g:message code="emprestimo.status.label" default="Status" /></td>
 
         <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "statusStr")}</td>
@@ -77,18 +75,34 @@
 
         </tr>
 
-        <tr  >
-          <td valign="top" class="name"><g:message code="emprestimo.valorParcela.label" default="Valor Parcela" /></td>
+        <tr  class="prop" >
+        <g:if test="${emprestimoInstance.valorParcela > 0.0}">
 
-        <td valign="top" class="value"><g:formatNumber number="${emprestimoInstance.valorParcela}" type="currency" currencyCode="BRL" /></td>
+          <td valign="top" class="name">
+          <g:message code="emprestimo.valorParcela.label" default="Valor Parcela" />
+          </td>
+          <td valign="top" class="value">
+          <g:formatNumber number="${emprestimoInstance.valorParcela}" type="currency" currencyCode="BRL" />
+          </td>
+
+        </g:if>
+        <g:else>
+
+          <td valign="top" class="name">
+          <g:message code="emprestimo.valorParcelaEstimado.label" default="Valor Parcela (estimado)" />
+          </td>
+          <td valign="top" class="value">
+          <g:formatNumber number="${emprestimoInstance.valorParcelaEstimado}" type="currency" currencyCode="BRL" />
+          </td>
+
+        </g:else>
 
         <td valign="top" class="name"><g:message code="emprestimo.tac.label" default="Tac" /></td>
-
         <td valign="top" class="value"> <g:formatNumber number="${emprestimoInstance.tac}" type="currency" currencyCode="BRL" /></td>
 
         </tr>
 
-        <tr  >
+        <tr  class="prop" >
 
           <td valign="top" class="name"><g:message code="emprestimo.numParcelas.label" default="Num Parcelas" /></td>
 
@@ -99,64 +113,72 @@
 
         </tr>
 
+        <tr  class="prop" >
+
+          <td valign="top" class="name"><g:message code="emprestimo.intervalo.label" default="Intervalo" /></td>
+
+        <td valign="top" rowspan="3" class="value">${fieldValue(bean: emprestimoInstance, field: "intervalo")}</td>
+
+        </tr>
+
         </tbody>
       </table>
     </div>
-<g:if test="${emprestimoInstance?.placa}">
-    <h2>Dados do Veículo</h2>
-    <div class="dialog">
-      <table>
-        <tbody>
+    <g:if test="${emprestimoInstance?.placa}">
+      <h2>Dados do Veículo</h2>
+      <div class="dialog">
+        <table>
+          <tbody>
 
 
 
-                        <tr>
-                            <td valign="top" class="name"><g:message code="emprestimo.placa.label" default="Placa" /></td>
+            <tr>
+              <td valign="top" class="name"><g:message code="emprestimo.placa.label" default="Placa" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "placa")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "placa")}</td>
 
-                            <td valign="top" class="name"><g:message code="emprestimo.marca.label" default="Marca" /></td>
+          <td valign="top" class="name"><g:message code="emprestimo.marca.label" default="Marca" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "marca")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "marca")}</td>
 
-                        </tr>
+          </tr>
 
-                        <tr>
-                            <td valign="top" class="name"><g:message code="emprestimo.modelo.label" default="Modelo" /></td>
+          <tr>
+            <td valign="top" class="name"><g:message code="emprestimo.modelo.label" default="Modelo" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "modelo")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "modelo")}</td>
 
-                            <td valign="top" class="name"><g:message code="emprestimo.anoFab.label" default="Ano Fab" /></td>
+          <td valign="top" class="name"><g:message code="emprestimo.anoFab.label" default="Ano Fab" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "anoFab")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "anoFab")}</td>
 
-                        </tr>
+          </tr>
 
-                        <tr>
-                            <td valign="top" class="name"><g:message code="emprestimo.anoMod.label" default="Ano Mod" /></td>
+          <tr>
+            <td valign="top" class="name"><g:message code="emprestimo.anoMod.label" default="Ano Mod" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "anoMod")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "anoMod")}</td>
 
-                            <td valign="top" class="name"><g:message code="emprestimo.chassi.label" default="Chassi" /></td>
+          <td valign="top" class="name"><g:message code="emprestimo.chassi.label" default="Chassi" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "chassi")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "chassi")}</td>
 
-                        </tr>
+          </tr>
 
-                        <tr>
-                            <td valign="top" class="name"><g:message code="emprestimo.cor.label" default="Cor" /></td>
+          <tr>
+            <td valign="top" class="name"><g:message code="emprestimo.cor.label" default="Cor" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "cor")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "cor")}</td>
 
-                            <td valign="top" class="name"><g:message code="emprestimo.tipoCombustivel.label" default="Tipo Combustivel" /></td>
+          <td valign="top" class="name"><g:message code="emprestimo.tipoCombustivel.label" default="Tipo Combustivel" /></td>
 
-                            <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "tipoCombustivel")}</td>
+          <td valign="top" class="value">${fieldValue(bean: emprestimoInstance, field: "tipoCombustivel")}</td>
 
-                        </tr>
-        </tbody>
-      </table>
-    </div>
-                        </g:if>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </g:if>
 
 
 
@@ -171,12 +193,14 @@
         </g:if>
 
         <g:if test="${emprestimoInstance?.status > 0}">
+          <span class="button">
 
-        <modalbox:createLink
-          controller="emprestimo"
-          action="mudarStatusModal"
-          id="${emprestimoInstance.id}"
-          title="Alterar status!" width="500">Alterar Status</modalbox:createLink>
+            <modalbox:createLink
+              controller="emprestimo"
+              action="mudarStatusModal"
+              id="${emprestimoInstance.id}"
+              title="Alterar status!" width="500">Alterar Status</modalbox:createLink>
+          </span>
 
         </g:if>
       </g:form>
@@ -195,7 +219,9 @@
 
               <th>${message(code: 'parcela.vencimento.label', default: 'Vencimento')}</th>
 
-              <th>${message(code: 'parcela.valorAtual.label', default: 'Valor')}</th>
+              <th>${message(code: 'parcela.valor.label', default: 'Valor')}</th>
+
+              <th>${message(code: 'parcela.acrescimos.label', default: 'Acrescimos')}</th>
 
               <th>${message(code: 'parcela.valorPago.label', default: 'Valor Pago')}</th>
 
@@ -215,7 +241,9 @@
 
               <td><g:formatDate date="${parcelaInstance.vencimento}" format="dd/MM/yyyy" /></td>
 
-            <td><g:formatNumber number="${parcelaInstance.valorAtual}" type="currency" currencyCode="BRL" /></td>
+            <td><g:formatNumber number="${parcelaInstance.valor}" type="currency" currencyCode="BRL" /></td>
+
+            <td><g:formatNumber number="${parcelaInstance.acrescimos}" type="currency" currencyCode="BRL" /></td>
 
             <td><g:formatNumber number="${parcelaInstance.valorPago}" type="currency" currencyCode="BRL" /></td>
 
@@ -228,10 +256,10 @@
               <g:link action="pagar" controller="parcela" id="${parcelaInstance.id}">Pagamento</g:link>
             </g:if>
 
-              <g:link action="show" controller="parcela" id="${parcelaInstance.id}">Detalhes</g:link>
+            <g:link action="show" controller="parcela" id="${parcelaInstance.id}">Detalhes</g:link>
 
 
-              <g:link class="list" id="${parcelaInstance?.id}" target="_blank" controller="parcela" action="print">Imprimir</g:link>
+            <g:link class="list" id="${parcelaInstance?.id}" target="_blank" controller="parcela" action="print">Imprimir</g:link>
 
 
 
@@ -262,7 +290,9 @@ ${o.obs} (${o.usuario})
 
       <g:form>
         <g:hiddenField name="id" value="${emprestimoInstance?.id}"/>
-        <g:textArea name="observ" cols="80" rows="2" />
+        <div style="width: 500px">
+          <g:textArea name="observ" cols="40" rols="5" />
+        </div>
         <div>
           <g:actionSubmit action="addObs" class="edit" value="Gravar observação" />
         </div>
@@ -271,6 +301,6 @@ ${o.obs} (${o.usuario})
 
     <br />
   </div>
- 
+
 </body>
 </html>

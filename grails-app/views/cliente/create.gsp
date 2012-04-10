@@ -3,9 +3,9 @@
 <%@ page import="fenix.Cliente" %>
 <html>
     <head>
-        <resource:dateChooser/>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
+        <g:javascript library="mascara" />
         <g:set var="entityName" value="${message(code: 'cliente.label', default: 'Cliente')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
@@ -34,7 +34,7 @@
                                     <label for="nome"><g:message code="cliente.nome.label" default="Nome" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'nome', 'errors')}">
-                                    <g:textField name="nome" maxlength="100" value="${clienteInstance?.nome}" />
+                                    <g:textField name="nome" size="50" maxlength="100" value="${clienteInstance?.nome}" />
                                 </td>
 
                                 <td valign="top" class="name">
@@ -50,13 +50,13 @@
                                     <label for="cpf"><g:message code="cliente.cpf.label" default="Cpf" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'cpf', 'errors')}">
-                                    <g:textField name="cpf" maxlength="16" value="${clienteInstance?.cpf}" />
+                                    <g:textField name="cpf" onkeypress="mascara(this,mcpf)" maxlength="14" value="${clienteInstance?.cpf}" />
                                 </td>
                                 <td valign="top" class="name">
                                     <label for="telefoneRes"><g:message code="cliente.telefoneRes.label" default="Telefone Res" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'telefoneRes', 'errors')}">
-                                    <g:textField name="telefoneRes" maxlength="12" value="${clienteInstance?.telefoneRes}" />
+                                    <g:textField name="telefoneRes" onkeypress="mascara(this,telefone)" maxlength="14" value="${clienteInstance?.telefoneRes}" />
                                 </td>
                             </tr>
                         
@@ -65,13 +65,13 @@
                                     <label for="telefoneCom"><g:message code="cliente.telefoneCom.label" default="Telefone Com" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'telefoneCom', 'errors')}">
-                                    <g:textField name="telefoneCom" maxlength="12" value="${clienteInstance?.telefoneCom}" />
+                                    <g:textField name="telefoneCom" onkeypress="mascara(this,telefone)" maxlength="14" value="${clienteInstance?.telefoneCom}" />
                                 </td>
                                 <td valign="top" class="name">
                                     <label for="telefoneCel"><g:message code="cliente.telefoneCel.label" default="Telefone Cel" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'telefoneCel', 'errors')}">
-                                    <g:textField name="telefoneCel" maxlength="12" value="${clienteInstance?.telefoneCel}" />
+                                    <g:textField name="telefoneCel" onkeypress="mascara(this,telefone)" maxlength="14" value="${clienteInstance?.telefoneCel}" />
                                 </td>
                             </tr>
                         
@@ -80,7 +80,7 @@
                                     <label for="email"><g:message code="cliente.email.label" default="Email" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'email', 'errors')}">
-                                    <g:textField name="email" maxlength="100" value="${clienteInstance?.email}" />
+                                    <g:textField name="email" size="50"  maxlength="100" value="${clienteInstance?.email}" />
                                 </td>
                                 <td valign="top" class="name">
                                     <label for="fax"><g:message code="cliente.fax.label" default="Fax" /></label>
@@ -95,7 +95,7 @@
                                     <label for="endereco"><g:message code="cliente.endereco.label" default="Endereco" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'endereco', 'errors')}">
-                                    <g:textField name="endereco" maxlength="100" value="${clienteInstance?.endereco}" />
+                                    <g:textField name="endereco" size="50"  maxlength="100" value="${clienteInstance?.endereco}" />
                                 </td>
                                 <td valign="top" class="name">
                                     <label for="cep"><g:message code="cliente.cep.label" default="Cep" /></label>
@@ -110,13 +110,13 @@
                                     <label for="bairro"><g:message code="cliente.bairro.label" default="Bairro" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'bairro', 'errors')}">
-                                    <g:textField name="bairro" maxlength="100" value="${clienteInstance?.bairro}" />
+                                    <g:textField name="bairro" size="50"  maxlength="100" value="${clienteInstance?.bairro}" />
                                 </td>
                                 <td valign="top" class="name">
                                     <label for="cidade"><g:message code="cliente.cidade.label" default="Cidade" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'cidade', 'errors')}">
-                                    <g:textField name="cidade" maxlength="100" value="${clienteInstance?.cidade}" />
+                                    <g:textField name="cidade" size="50"  maxlength="100" value="${clienteInstance?.cidade}" />
                                 </td>
                             </tr>
                         
@@ -125,13 +125,13 @@
                                     <label for="estado"><g:message code="cliente.estado.label" default="Estado" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'estado', 'errors')}">
-                                    <g:textField name="estado" maxlength="3" value="${clienteInstance?.estado}" />
+                                    <g:textField name="estado" size="3"  maxlength="3" value="${clienteInstance?.estado}" />
                                 </td>
                                 <td valign="top" class="name">
                                     <label for="ptoReferencia"><g:message code="cliente.ptoReferencia.label" default="Pto Referencia" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'ptoReferencia', 'errors')}">
-                                    <g:textField name="ptoReferencia" maxlength="100" value="${clienteInstance?.ptoReferencia}" />
+                                    <g:textField name="ptoReferencia" maxlength="100" size="50"  value="${clienteInstance?.ptoReferencia}" />
                                 </td>
                             </tr>
                         
@@ -146,7 +146,7 @@
                                     <label for="empresa"><g:message code="cliente.empresa.label" default="Empresa" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'empresa', 'errors')}">
-                                    <g:textField name="empresa" maxlength="100" value="${clienteInstance?.empresa}" />
+                                    <g:textField name="empresa" maxlength="100" size="50"  value="${clienteInstance?.empresa}" />
                                 </td>
                             </tr>
                         
@@ -161,7 +161,7 @@
                                     <label for="renda"><g:message code="cliente.renda.label" default="Renda" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: clienteInstance, field: 'renda', 'errors')}">
-                                    <g:textField name="renda" value="${fieldValue(bean: clienteInstance, field: 'renda')}" />
+                                    <g:textField name="renda" onkeypress="mascara(this,moeda)" value="${fieldValue(bean: clienteInstance, field: 'renda')}" />
                                 </td>
                             </tr>
 
@@ -184,7 +184,7 @@
                                     <label for="enderecoEmpresa"><g:message code="cliente.enderecoEmpresa.label" default="Endereco Empresa" /></label>
                                 </td>
                                 <td valign="top" colspan="3" class="value ${hasErrors(bean: clienteInstance, field: 'enderecoEmpresa', 'errors')}">
-                                    <g:textArea name="enderecoEmpresa" cols="40" rows="5" value="${clienteInstance?.enderecoEmpresa}" />
+                                    <g:textField name="enderecoEmpresa" maxlength="150" size="50" value="${clienteInstance?.enderecoEmpresa}" />
                                 </td>
 
                             </tr>

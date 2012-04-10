@@ -7,6 +7,8 @@
   <g:javascript library="application" />
 </head>
 <body>
+    <img alt="logo"  src="${resource(dir:'images', file: 'printlogo.jpg')}" />
+
 <g:layoutBody />
 <div id="rodape">
   Data: <g:formatDate date="${new Date()}" format="dd/MM/yy HH:mm"/>

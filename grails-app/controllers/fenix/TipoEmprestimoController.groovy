@@ -9,7 +9,7 @@ class TipoEmprestimoController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 20, 100)
         [tipoEmprestimoInstanceList: TipoEmprestimo.list(params), tipoEmprestimoInstanceTotal: TipoEmprestimo.count()]
     }
 

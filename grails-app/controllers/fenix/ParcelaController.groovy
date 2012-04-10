@@ -1,8 +1,40 @@
 package fenix
 
+import java.math.*
+
 class ParcelaController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def EmprestimoService
+
+
+    private void calculaAcrescimos(Parcela parcela){
+
+        def diasAtraso = (parcela.dataPagamento - parcela.vencimento);
+        if (diasAtraso > 5){
+            parcela.acrescimos = (parcela.taxaJurosAtraso * diasAtraso * parcela.valor / 100)
+            parcela.acrescimos += parcela.multaAtraso
+            parcela.acrescimos = parcela.acrescimos.setScale(2, RoundingMode.DOWN);
+        } else
+        parcela.acrescimos = 0.0
+    }
+
+
+    def updatePrevPag = {
+        def parcela = Parcela.get(params.id)
+        parcela.previsaoDePagamento =  Date.parse("dd/MM/yyyy",params.dataPrev)
+        parcela.save(flush:true)
+        render g.formatDate([date:parcela.previsaoDePagamento])
+
+    }
+
+    def updateDataPag = {
+        def parcela = Parcela.get(params.id)
+        parcela.dataPagamento =  Date.parse("dd/MM/yyyy",params.datapag)
+        calculaAcrescimos(parcela)
+        render g.formatNumber([number:parcela.valorAtual, type: "currency", currencyType:"BRL"])
+    }
 
     def print = {
         def parcelaInstance = Parcela.get(params.id)
@@ -37,12 +69,9 @@ class ParcelaController {
             if(parcela.pago == false){
 
                 try{
-                    def valorPago = params.valorPago.replace(',','.').toBigDecimal()
-                    valorPago = valorPago.setScale(2,BigDecimal.ROUND_HALF_DOWN);
+                    bindData(parcela, params);
                     def valorDev = parcela.valorAtual
-                    if((valorPago - valorDev).abs() < 0.01 ){
-                        parcela.valorPago = valorPago
-                        parcela.dataPagamento = new Date()
+                    if((parcela.valorPago - valorDev).abs() < 0.01 ){
                         parcela.usuario = session.usuario
                         parcela.pago = true
                         if(parcela.save(flush:true)){
@@ -81,6 +110,43 @@ class ParcelaController {
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [parcelaInstanceList: Parcela.list(params), parcelaInstanceTotal: Parcela.count()]
+    }
+
+    def cobranca = {
+        EmprestimoService.atualizarStatus()
+
+        def old = Parcela.executeQuery("select year(min(pc.vencimento)) from Parcela as pc where pc.pago = false" )
+
+        def hoje = new GregorianCalendar()
+
+        if (old.size() == 0){
+            old = hoje.get(Calendar.YEAR)
+        }else{
+            old = old[0]
+        }
+        def query
+        def lista
+        def size
+        def ano
+        def mes
+        def meses = [1:'janeiro', 2:'fevereiro', 3:'março',4:'abril',5:'maio',6:'junho',7:'julho',8:'agosto',9:'setembro',10:'outubro',11:'novembro',12:'dezembro']
+        def anos = hoje.get(Calendar.YEAR)..old
+        params.max = Math.min(params.max ? params.int('max') : 20, 100)
+        params.offset = params.offset?params.int('offset'):1
+
+        if(params.ano && params.mes && params.mes != 'null' && params.ano != 'null'){
+            ano = params.int('ano')
+            mes = params.int('mes')
+            query = "from Parcela p where p.pago = false and p.vencimento < :hoje and year(p.vencimento) = :ano and month(p.vencimento) = :mes order by p.vencimento"
+            lista = Parcela.findAll(query,[hoje:hoje.time, ano: ano, mes: mes, max:params.max, offset:params.offset])
+            size = Parcela.findAll(query, [hoje:hoje.time, ano: ano, mes: mes]).size()
+        }
+        else {
+            query = "from Parcela p where p.pago = false and p.vencimento < :hoje order by p.vencimento"
+            lista = Parcela.findAll(query, [hoje:hoje.time, max:params.max, offset:params.offset])
+            size = Parcela.findAll(query, [hoje:hoje.time]).size()
+        }
+        [parcelaInstanceList: lista, parcelaInstanceTotal: size, ano: params.ano, mes: params.mes, anos: anos, meses: meses ]
     }
 
     def create = {
@@ -130,6 +196,8 @@ class ParcelaController {
 
     def update = {
 
+        def all = (params.update_all == "on")
+
         if(session.usuario.perfil != "admin") {
             flash.message = "Acesso negado"
             return false
@@ -147,6 +215,7 @@ class ParcelaController {
                     return
                 }
             }
+            def valorOld = parcelaInstance.valor
             parcelaInstance.properties = params
 
             if(parcelaInstance.pago && (!parcelaInstance.dataPagamento)){
@@ -176,6 +245,24 @@ class ParcelaController {
             }
 
             if (!parcelaInstance.hasErrors() && parcelaInstance.save(flush: true)) {
+
+                if(valorOld != parcelaInstance.valor){
+                    def log = new Log()
+                    log.usuario = session.usuario
+                    log.data = new Date()
+                    log.descricao = "O valor da parcela id: ${parcelaInstance.id} do cliente: ${parcelaInstance.emprestimo.cliente.nome} foi alterada de ${valorOld} para ${parcelaInstance.valor}"
+                    log.save(flush:true)
+                }
+
+                if(all) {
+                    def outras = Parcela.findAllByEmprestimoAndPago(parcelaInstance.emprestimo, false)
+                    outras.each {
+                        it.valor = parcelaInstance.valor
+                        it.multaAtraso = parcelaInstance.multaAtraso
+                        it.taxaJurosAtraso = parcelaInstance.taxaJurosAtraso
+                        it.save(flush:true)
+                    }
+                }
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'parcela.label', default: 'Parcela'), parcelaInstance.id])}"
                 redirect(action: "show", id: parcelaInstance.id)
             }

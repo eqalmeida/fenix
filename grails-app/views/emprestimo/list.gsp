@@ -9,14 +9,13 @@
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><g:link class="list" action="list" params="['status':0]">Não Efetivados</g:link></span>
-            <span class="menuButton"><g:link class="list" action="list" params="['status':1]">Ativos</g:link></span>
-            <span class="menuButton"><g:link class="list" action="list" params="['status':2]">Cancelados</g:link></span>
-            <span class="menuButton"><g:link class="list" action="list" params="['status':3]">Congelados</g:link></span>
-            <span class="menuButton"><g:link class="list" action="list" params="['status':4]">Acordo</g:link></span>
-            <span class="menuButton"><g:link class="list" action="list" params="['status':5]">Protesto</g:link></span>
-            <span class="menuButton"><g:link class="list" action="list" params="['status':6]">Em Atraso</g:link></span>
-            <span class="menuButton"><g:link class="list" action="list" params="['status':7]">Quitados</g:link></span>
+            <span class="menuButton"><g:link class="rel" action="chart">Gráfico de ${entityName}</g:link></span>
+        </div>
+        <div class="nav">
+            <span class="menuButton"><g:link class="top" action="list">Todos</g:link></span>
+            <g:each in="${statusNomes}" var="it1">
+            <span class="menuButton"><g:link class="top" action="list" params="['status':it1.key]">${it1.value}</g:link></span>
+            </g:each>
         </div>
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /> ${stat}</h1>
@@ -72,8 +71,9 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${emprestimoInstanceTotal}" />
+                <g:paginate total="${emprestimoInstanceTotal}" params="${[status: status]}" max="20" />
             </div>
+
         </div>
     </body>
 </html>

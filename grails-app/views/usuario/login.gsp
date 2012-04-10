@@ -3,7 +3,7 @@
     <meta name="layout" content="main" />
     <title>Login</title>
   </head>
-  <body>
+  <body onLoad="document.getElementById('login').focus()">
     <div class="body">
       <h1>Login</h1>
       <g:if test="${flash.message}">

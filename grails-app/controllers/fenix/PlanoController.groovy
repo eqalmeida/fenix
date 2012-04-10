@@ -9,8 +9,18 @@ class PlanoController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [planoInstanceList: Plano.list(params), planoInstanceTotal: Plano.count()]
+        params.max = Math.min(params.max ? params.int('max') : 20, 100)
+        def tipo = TipoEmprestimo.get(params.int('tipoEmprestimo_id'));
+        def planos = null
+        def size = 0
+        if (tipo){
+            planos = Plano.findAllByTipoEmprestimo(tipo, params)
+            size = Plano.findAllByTipoEmprestimo(tipo).size()
+        } else {
+            planos = Plano.list(params)
+            size = Plano.count()
+        }
+        [planoInstanceList: planos,tipoList: TipoEmprestimo.list(), planoInstanceTotal: size, tipoInstance: tipo, tipoEmprestimo_id:tipo?.id]
     }
 
     def create = {

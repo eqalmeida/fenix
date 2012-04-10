@@ -41,18 +41,10 @@
                                     <label for="numParcelas"><g:message code="plano.numParcelas.label" default="Num Parcelas" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: planoInstance, field: 'numParcelas', 'errors')}">
-                                    <g:select name="numParcelas" from="${1..50}" value="${fieldValue(bean: planoInstance, field: 'numParcelas')}"  />
+                                    <g:select name="numParcelas" from="${1..120}" value="${fieldValue(bean: planoInstance, field: 'numParcelas')}"  />
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="tac"><g:message code="plano.tac.label" default="Tac" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: planoInstance, field: 'tac', 'errors')}">
-                                    <g:textField name="tac" value="${fieldValue(bean: planoInstance, field: 'tac')}" />
-                                </td>
-                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

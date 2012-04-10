@@ -5,12 +5,14 @@
   <g:javascript library="application" />
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Impressão de Empréstimo</title>
+  <title>Impressão de Transação</title>
     <link rel="stylesheet" href="${resource(dir:'css',file:'print.css')}" />
 </head>
 <body>
   <div class="body">
-    <h1>Detalhes do Empréstimo</h1>
+    <img alt="logo" height="100" src="${resource(dir:'images', file: 'printlogo.jpg')}" />
+
+    <h1>Detalhes da Transação</h1>
     <div class="dialog">
       <table>
         <tbody>
@@ -92,6 +94,14 @@
 
         </tr>
 
+        <tr  class="prop" >
+
+          <td valign="top" class="name"><g:message code="emprestimo.intervalo.label" default="Intervalo" /></td>
+
+          <td valign="top" rowspan="3" class="value">${fieldValue(bean: emprestimoInstance, field: "intervalo")}</td>
+
+        </tr>
+
         </tbody>
       </table>
     </div>
@@ -167,7 +177,9 @@
 
               <th>${message(code: 'parcela.vencimento.label', default: 'Vencimento')}</th>
 
-              <th>${message(code: 'parcela.valorAtual.label', default: 'Valor')}</th>
+              <th>${message(code: 'parcela.valor.label', default: 'Valor')}</th>
+
+              <th>${message(code: 'parcela.acrescimos.label', default: 'Acrescimos')}</th>
 
               <th>${message(code: 'parcela.valorPago.label', default: 'Valor Pago')}</th>
 
@@ -185,7 +197,9 @@
 
               <td><g:formatDate date="${parcelaInstance.vencimento}" format="dd/MM/yyyy" /></td>
 
-            <td><g:formatNumber number="${parcelaInstance.valorAtual}" type="currency" currencyCode="BRL" /></td>
+            <td><g:formatNumber number="${parcelaInstance.valor}" type="currency" currencyCode="BRL" /></td>
+
+            <td><g:formatNumber number="${parcelaInstance.acrescimos}" type="currency" currencyCode="BRL" /></td>
 
             <td><g:formatNumber number="${parcelaInstance.valorPago}" type="currency" currencyCode="BRL" /></td>
 

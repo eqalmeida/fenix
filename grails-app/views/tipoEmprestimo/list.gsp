@@ -41,9 +41,9 @@
                         
                             <td>${fieldValue(bean: tipoEmprestimoInstance, field: "nome")}</td>
                         
-                            <td>${fieldValue(bean: tipoEmprestimoInstance, field: "taxaJurosAtraso")}</td>
+                            <td>${fieldValue(bean: tipoEmprestimoInstance, field: "taxaJurosAtraso")} %</td>
                         
-                            <td>${fieldValue(bean: tipoEmprestimoInstance, field: "multaAtraso")}</td>
+                            <td><g:formatNumber number="${tipoEmprestimoInstance.multaAtraso}" type="currency" currencyType="BRL" /></td>
                         
                             <td><g:formatBoolean boolean="${tipoEmprestimoInstance.ativo}" /></td>
                         

@@ -1,53 +1,59 @@
 <html>
   <head>
-    <title><g:layoutTitle default="Grails" /></title>
+    <title>Fenix :: Controle de Negociações</title>
     <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
     <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
   <g:layoutHead />
   <g:javascript library="application" />
+  <g:javascript>
+    function autoFocus(){
+      
+      var all=document.getElementsByTagName("input");
+      var total = all.length
+      for(i=0; i< total ;i++){
+        if(all[i].type == "text")
+        {
+          all[i].focus();
+          break;
+         }
+      }
+
+    }
+  </g:javascript>
 </head>
-<body style="margin:0px">
+<body onLoad="autoFocus()">
+  <!--
   <div id="spinner" class="spinner" style="display:none;">
     <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
   </div>
-  <!--
-    <div id="grailsLogo"><a href="http://grails.org"><img src="${resource(dir:'images',file:'grails_logo.png')}" alt="Grails" border="0" /></a></div>
   -->
-  <div id="top">
-    <div style="float:left">
-      <h1>CONTROLE DE EMPRÉSTIMOS - FENIX MOTOS</h1>
+    <div id="top">
+        <h1>CONTROLE DE NEGOCIAÇÕES - FENIX MOTOS</h1>
     </div>
-    <g:if test="${session.usuario}">
-      <div id="loginHeader">
-        <g:loginControl />
-      </div>
-    </g:if>
 
-  </div>
-  <table cellpadding="0px" cellspacing="0px" border="0" style="border:none">
-    <tr valign="top">
-      <td valign="top" width="160" style="padding: 0px; border: none; margin: 0px">
-        <div id="menubv">
-          <ul id="menuver">
-            <li><g:link controller="cliente">Clientes</g:link></li>
-            <li><g:link controller="emprestimo">Empréstimos</g:link></li>
-            <li><g:link controller="tipoEmprestimo">Tipos de empréstimos</g:link></li>
-            <li><g:link controller="plano">Planos</g:link></li>
-            <li><g:link controller="especie">Espécie</g:link></li>
-            <li><g:link controller="usuario">Usuários</g:link></li>
-            <li><g:link controller="log">Logs</g:link></li>
-          </ul>
+    <div id="menubv">
+      
+      <ul>
+        <li><g:link controller="cliente">Clientes</g:link></li>
+        <li><g:link controller="emprestimo">Transações</g:link></li>
+        <li><g:link controller="parcela" action="cobranca" >Cobrança</g:link></li>
+        <li><g:link controller="tipoEmprestimo">Tipos de Transação</g:link></li>
+        <li><g:link controller="plano">Planos</g:link></li>
+        <li><g:link controller="especie">Espécie</g:link></li>
+        <li><g:link controller="usuario" >Usuários</g:link></li>
+        <li><g:link controller="log" >Logs</g:link></li>
+        <li><g:link controller="config" action="backupList" >Backups</g:link></li>
+      </ul>
 
-
+      <g:if test="${session.usuario}">
+        <div id="loginHeader">
+          <g:loginControl />
         </div>
+      </g:if>
+    </div>
 
-      </td>
-      <td valign="top" style="padding: 0px">
-        <div id="content">
-          <g:layoutBody />
-        </div>
-      </td>
-    </tr>
-  </table>
-  </div>
+    <div id="content">
+      <g:layoutBody />
+    </div>
+
 </html>

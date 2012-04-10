@@ -38,14 +38,14 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="tipoEmprestimo.taxaJurosAtraso.label" default="taxaJurosAtraso" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: tipoEmprestimoInstance, field: "taxaJurosAtraso")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: tipoEmprestimoInstance, field: "taxaJurosAtraso")} %</td>
                             
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="tipoEmprestimo.multaAtraso.label" default="Multa Atraso" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: tipoEmprestimoInstance, field: "multaAtraso")}</td>
+                            <td valign="top" class="value"><g:formatNumber number="${tipoEmprestimoInstance.multaAtraso}" type="currency" currencyType="BRL" /></td>
                             
                         </tr>
                     
@@ -83,8 +83,6 @@
 
                             <g:sortableColumn property="numParcelas" title="${message(code: 'plano.numParcelas.label', default: 'Num Parcelas')}" />
 
-                            <g:sortableColumn property="tac" title="${message(code: 'plano.tac.label', default: 'Tac')}" />
-
                             <g:sortableColumn property="coeficiente" title="${message(code: 'plano.coeficiente.label', default: 'Coeficiente')}" />
 
                         </tr>
@@ -97,8 +95,6 @@
                             <td><g:link action="show" controller="plano" id="${planoInstance.id}">${fieldValue(bean: planoInstance, field: "id")}</g:link></td>
 
                             <td>${fieldValue(bean: planoInstance, field: "numParcelas")}</td>
-
-                            <td><g:formatNumber number="${planoInstance.tac}" type="currency" currencyType="BRL" /></td>
 
                             <td>${formatNumber(number: planoInstance.coeficiente)}</td>
 

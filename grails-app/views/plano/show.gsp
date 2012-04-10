@@ -43,13 +43,6 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="plano.tac.label" default="Tac" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: planoInstance, field: "tac")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="plano.coeficiente.label" default="Coeficiente" /></td>
                             
                             <td valign="top" class="value">${formatNumber(number: planoInstance.coeficiente)}</td>

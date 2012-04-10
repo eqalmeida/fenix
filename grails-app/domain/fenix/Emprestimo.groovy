@@ -4,7 +4,7 @@ class Emprestimo {
 
     static hasMany = [parcelas: Parcela, obs: Observacao]
 
-    static transients = [ "valorFinanciado", "montante", "statusStr"]
+    static transients = [ "valorFinanciado", "montante", "statusStr","valorParcelaEstimado"]
 
     static mapping = { parcelas sort:'numero' }
 
@@ -15,9 +15,11 @@ class Emprestimo {
     BigDecimal valorLiberado
     Date data = new Date()
     Date dataReg = new Date()
+    Date primeiroVencimento
     int status = 0  //1:Ativo, 2:Quitado, 3:Cancelado, 4:Devolvido, 5:Atraso, 6:Congelado, 7:Protesto, 8:Acordo
     BigDecimal tac
     BigDecimal valorParcela
+    String intervalo
     int numParcelas
     Usuario usuario
 
@@ -30,18 +32,18 @@ class Emprestimo {
     String cor
     String tipoCombustivel
 
-    //BigDecimal valorParcela
-
     BigDecimal getMontante(){
         return (this.valorParcela * this.numParcelas)
     }
 
-    String getStatusStr(){
-        def nomes = [0:"Não Efetivado",1:"Ativo",2:"Cancelado",3:"Congelado",4:"Acordo",5:"Protesto",6:"Em Atraso", 7:"Quitado"]
-        return nomes[this.status]
+    BigDecimal getValorParcelaEstimado(){
+        return ((this.tac + this.valorLiberado)* this.plano?.coeficiente)
     }
 
-
+    String getStatusStr(){
+        def nomes = [0:"Não Efetivado",1:"Regular",2:"Cancelado",3:"Congelado",4:"Acordo",5:"Protesto",6:"Em Atraso", 7:"Quitado"]
+        return nomes[this.status]
+    }
 
     BigDecimal getValorFinanciado(){
         return(this.tac + this.valorLiberado)
@@ -55,10 +57,12 @@ class Emprestimo {
         valorLiberado()
         data()
         dataReg()
+        primeiroVencimento(nullable: true)
         status()
         tac(nullable:false, scale:2)
-        valorParcela(nullable:false)
-        numParcelas(range:1..50)
+        valorParcela(nullable: true)
+        intervalo(inList:["mensal","quinzenal","semanal"])
+        numParcelas(range:1..120)
         usuario(nullable:false)
 
         placa(maxSize:10, blank:true, nullable:true)
