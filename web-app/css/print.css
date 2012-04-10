@@ -1,0 +1,161 @@
+html * {
+    margin: 0;
+    /*padding: 0; SELECT NOT DISPLAYED CORRECTLY IN FIREFOX */
+}
+
+#content {
+/*margin: 0px 190px 0px 20px;
+/*border-left: 2px solid #564b47;
+border-right: 2px solid #564b47;
+*/
+padding: 0px;
+background: #ffffff;
+color:#222;
+}
+#left {
+position: absolute;
+left: 0px;
+width: 190px;
+color: #564b47;
+margin: 0px;
+padding: 0px;
+}
+#right {
+position: absolute;
+right: 0px;
+width: 190px;
+color: #564b47;
+margin: 0px;
+padding: 0px;
+}
+
+.spinner {
+    padding: 5px;
+    position: absolute;
+    right: 0;
+}
+
+body {
+    background: #fff;
+    color: #000;
+    font: 12px verdana, arial, helvetica, sans-serif;
+}
+
+
+h1 {
+    color: #111;
+    font-weight: normal;
+    font-size: 16px;
+    margin: .8em 0 .3em 0;
+    border-bottom: solid 3px #444;
+}
+
+h2 {
+    color: #222;
+    font-weight: normal;
+    font-size: 14px;
+    margin: .8em 0 .3em 0;
+}
+
+ul {
+    padding-left: 15px;
+}
+
+
+.body {
+    float: left;
+    margin: 10px 20px 10px 20px;
+}
+
+/* NAVIGATION MENU */
+/* TABLES */
+
+table {
+ /*    border: 1px solid #ccc;
+   width: 100%*/
+}
+tr {
+    border: 0;
+}
+td, th {
+    font: 12px verdana, arial, helvetica, sans-serif;
+    line-height: 12px;
+    padding: 5px 6px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    color: #111;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 2px 6px;
+    border-bottom: #111 solid 3px;
+}
+th a:link, th a:visited, th a:hover {
+    color: #333;
+    display: block;
+    font-size: 10px;
+    text-decoration: none;
+    width: 100%;
+}
+th.asc a, th.desc a {
+    background-position: right;
+    background-repeat: no-repeat;
+}
+th.asc a {
+    background-image: url(../images/skin/sorted_asc.gif);
+}
+th.desc a {
+    background-image: url(../images/skin/sorted_desc.gif);
+}
+
+/* LIST */
+
+.list table {
+    border-collapse: collapse;
+}
+.list th, .list td {
+/*    border-left: 1px solid #ddd;*/
+}
+
+.list th {
+/*    border-left: 1px solid #ddd;*/
+    text-align: center;
+    border-bottom: solid 3px #111;
+    margin-right: 10px;
+    padding-right: 10px;
+}
+
+.list td {
+/*    border-left: 1px solid #ddd;*/
+    text-align: center;
+    border-bottom: solid 1px #555;
+}
+
+
+/* DIALOG */
+
+.dialog table {
+    padding: 5px 0;
+}
+
+.prop {
+    padding: 5px;
+}
+.prop .name {
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.prop .value {
+    text-align: left;
+    margin-right: 30px;
+    padding-right: 30px;
+}
+
+#rodape {
+    text-align: right;
+    color: #444;
+}
