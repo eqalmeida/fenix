@@ -9,6 +9,10 @@ class Observacao {
     Emprestimo emprestimo
     Date data = new Date()
 
+    static mapping = {
+        sort data: "desc"
+    }
+
     static constraints = {
         obs(blank:false, maxSize:255)
         usuario(nullable:false)

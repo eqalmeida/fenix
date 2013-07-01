@@ -6,7 +6,10 @@ class Emprestimo {
 
     static transients = [ "valorFinanciado", "montante", "statusStr","valorParcelaEstimado"]
 
-    static mapping = { parcelas sort:'numero' }
+    static mapping = { 
+        parcelas sort:'numero' 
+        obs sort:'data', order:'desc'
+    }
 
     Cliente cliente
     TipoEmprestimo tipoEmprestimo
