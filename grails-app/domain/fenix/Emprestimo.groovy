@@ -20,6 +20,7 @@ class Emprestimo {
     Date dataReg = new Date()
     Date primeiroVencimento
     int status = 0  //1:Ativo, 2:Quitado, 3:Cancelado, 4:Devolvido, 5:Atraso, 6:Congelado, 7:Protesto, 8:Acordo
+    int diasTolerancia = 0;     // Dias de tolerancia para pagamento da parcela.
     BigDecimal tac
     BigDecimal valorParcela
     String intervalo
@@ -67,6 +68,7 @@ class Emprestimo {
         intervalo(inList:["mensal","quinzenal","semanal"])
         numParcelas(range:1..120)
         usuario(nullable:false)
+        diasTolerancia range: 0..30
 
         placa(maxSize:10, blank:true, nullable:true)
         marca(maxSize:20, blank:true, nullable:true)

@@ -12,7 +12,7 @@ class ParcelaController {
     private void calculaAcrescimos(Parcela parcela){
 
         def diasAtraso = (parcela.dataPagamento - parcela.vencimento);
-        if (diasAtraso > 5){
+        if (diasAtraso > parcela.emprestimo.diasTolerancia){
             parcela.acrescimos = (parcela.taxaJurosAtraso * diasAtraso * parcela.valor / 100)
             parcela.acrescimos += parcela.multaAtraso
             parcela.acrescimos = parcela.acrescimos.setScale(2, RoundingMode.DOWN);

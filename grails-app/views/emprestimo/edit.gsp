@@ -119,6 +119,22 @@ ${emprestimoInstance?.cliente}
             </td>
             </tr>
 
+            </g:if>
+
+
+          <tr class="prop">
+            <td valign="top" class="name">
+              <label for="especie">Dias de Tolerância</label>
+            </td>
+            <td valign="top" class="value ${hasErrors(bean: emprestimoInstance, field: 'diasTolerancia', 'errors')}">
+            
+              <g:textField name="diasTolerancia" value="${fieldValue(bean: emprestimoInstance, field: 'diasTolerancia')}" />
+
+          </td>
+          </tr>
+
+            <g:if test="${emprestimoInstance?.status == 0}">
+
 
             <tr class="prop">
               <td valign="top" class="name">

@@ -117,7 +117,15 @@
 
           <td valign="top" class="name"><g:message code="emprestimo.intervalo.label" default="Intervalo" /></td>
 
-        <td valign="top" rowspan="3" class="value">${fieldValue(bean: emprestimoInstance, field: "intervalo")}</td>
+        <td valign="top" class="value">
+          ${fieldValue(bean: emprestimoInstance, field: "intervalo")}
+        </td>
+
+          <td valign="top" class="name">Tolerância</td>
+
+        <td valign="top" class="value">
+          ${fieldValue(bean: emprestimoInstance, field: "diasTolerancia")} dias
+        </td>
 
         </tr>
 
@@ -211,15 +219,21 @@
       <h1>Parcelas</h1>
 
       <div class="list" id="parcelaList">
-        <table>
+        <table class='lista'>
           <thead>
             <tr>
 
-              <th>${message(code: 'parcela.numero.label', default: 'Num. Boleto')}</th>
+              <th>
+                ${message(code: 'parcela.numero.label', default: 'Num. Boleto')}
+              </th>
 
-              <th>${message(code: 'parcela.vencimento.label', default: 'Vencimento')}</th>
+              <th>
+                ${message(code: 'parcela.vencimento.label', default: 'Vencimento')}
+              </th>
 
-              <th>${message(code: 'parcela.valor.label', default: 'Valor')}</th>
+              <th>
+                ${message(code: 'parcela.valor.label', default: 'Valor')}
+              </th>
 
               <th>${message(code: 'parcela.acrescimos.label', default: 'Acrescimos')}</th>
 
@@ -251,13 +265,16 @@
 
             <td>${parcelaInstance.usuario}</td>
 
-            <td align="center">
+            <td align="center" nowrap='nowrap'>
+
             <g:if test="${!parcelaInstance.pago}">
               <g:link action="pagar" controller="parcela" id="${parcelaInstance.id}">Pagamento</g:link>
+              <span> | </span>
             </g:if>
 
             <g:link action="show" controller="parcela" id="${parcelaInstance.id}">Detalhes</g:link>
 
+          <span> | </span>
 
             <g:link class="list" id="${parcelaInstance?.id}" target="_blank" controller="parcela" action="print">Imprimir</g:link>
 
@@ -271,11 +288,12 @@
         </table>
       </div>
     </g:if>
+
     <h2>Observações</h2>
     <g:each in="${emprestimoInstance.obs}" var="o">
-      <div style="padding:4px; border-bottom: dashed thin #DDD">
-        <g:formatDate date="${o.data}"/>:
-${o.obs} (${o.usuario})
+      <div style="padding:4px; border-top: solid 1px #eee">
+        <p><strong><g:formatDate date="${o.data}"/></strong> - ${o.usuario}<p/>
+        <p><i>${o.obs}</i></p>
       </div>
     </g:each>
 

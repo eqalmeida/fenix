@@ -91,6 +91,8 @@
           </td>
           </tr>
 
+
+
           <tr class="prop">
             <td valign="top" class="name">
               <label for="especie"><g:message code="emprestimo.especie.label" default="Especie" /></label>
@@ -108,6 +110,18 @@
           <g:select name="intervalo" from="${emprestimoInstance.constraints.intervalo.inList}" value="${emprestimoInstance?.intervalo}" valueMessagePrefix="emprestimo.intervalo" noSelection="['': 'Selecione...']" />
           </td>
 
+          </tr>
+
+
+          <tr class="prop">
+            <td valign="top" class="name">
+              <label for="especie">Dias de Tolerância</label>
+            </td>
+            <td valign="top" class="value ${hasErrors(bean: emprestimoInstance, field: 'diasTolerancia', 'errors')}">
+            
+              <g:textField name="diasTolerancia" value="${fieldValue(bean: emprestimoInstance, field: 'diasTolerancia')}" />
+
+          </td>
           </tr>
 
 
