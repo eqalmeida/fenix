@@ -43,7 +43,8 @@ class ConfigController {
         }
         catch(Exception exc)
         {
-            exc.printStackTrace();
+            flash.message = "${exc}"
+            redirect(action:'backupList')
         }
 
 
