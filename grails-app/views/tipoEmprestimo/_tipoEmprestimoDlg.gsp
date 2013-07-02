@@ -7,7 +7,7 @@
                   <label for="nome"><g:message code="tipoEmprestimo.nome.label" default="Nome" /></label>
                 </td>
                 <td valign="top" class="value ${hasErrors(bean: tipoEmprestimoInstance, field: 'nome', 'errors')}">
-                    <g:textField name="nome" maxlength="30" value="${tipoEmprestimoInstance?.nome}" />
+                    <g:textField name="nome" maxlength="30" value="${tipoEmprestimoInstance?.nome}" size="30"/>
                 </td>
             </tr>
         
@@ -16,7 +16,7 @@
                   <label for="taxaJurosAtraso"><g:message code="tipoEmprestimo.taxaJurosAtraso.label" default="taxaJurosAtraso" /></label>
                 </td>
                 <td valign="top" class="value ${hasErrors(bean: tipoEmprestimoInstance, field: 'taxaJurosAtraso', 'errors')}">
-                    <g:textField name="taxaJurosAtraso" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'taxaJurosAtraso')}" />
+                    <g:textField name="taxaJurosAtraso" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'taxaJurosAtraso')}" size="8"/>
                 </td>
             </tr>
         
@@ -25,7 +25,7 @@
                   <label for="multaAtraso"><g:message code="tipoEmprestimo.multaAtraso.label" default="Multa Atraso" /></label>
                 </td>
                 <td valign="top" class="value ${hasErrors(bean: tipoEmprestimoInstance, field: 'multaAtraso', 'errors')}">
-                    <g:textField name="multaAtraso" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'multaAtraso')}" />
+                    <g:textField name="multaAtraso" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'multaAtraso')}" size="8"/>
                 </td>
             </tr>
 
@@ -35,7 +35,7 @@
                     <label for="multaAtrasoPercent"><g:message code="tipoEmprestimo.multaAtrasoPercent.label" default="Multa Atraso % " /></label>
                 </td>
                 <td valign="top" class="value ${hasErrors(bean: tipoEmprestimoInstance, field: 'multaAtrasoPercent', 'errors')}">
-                    <g:textField name="multaAtrasoPercent" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'multaAtrasoPercent')}" />
+                    <g:textField name="multaAtrasoPercent" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'multaAtrasoPercent')}" size="8"/>
                 </td>
             </tr>
         
