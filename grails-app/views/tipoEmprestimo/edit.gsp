@@ -56,6 +56,17 @@
                                     <g:textField name="multaAtraso" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'multaAtraso')}" />
                                 </td>
                             </tr>
+
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="multaAtrasoPercent"><g:message code="tipoEmprestimo.multaAtrasoPercent.label" default="Multa Atraso % " /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: tipoEmprestimoInstance, field: 'multaAtrasoPercent', 'errors')}">
+                                    <g:textField name="multaAtrasoPercent" value="${fieldValue(bean: tipoEmprestimoInstance, field: 'multaAtrasoPercent')}" />
+                                </td>
+                            </tr>
+                        
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

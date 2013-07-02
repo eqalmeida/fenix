@@ -29,6 +29,8 @@
                         
                             <g:sortableColumn property="multaAtraso" title="${message(code: 'tipoEmprestimo.multaAtraso.label', default: 'Multa Atraso')}" />
                         
+                            <g:sortableColumn property="multaAtrasoPercent" title="${message(code: 'tipoEmprestimo.multaAtrasoPercent.label', default: 'Multa Atraso %')}" />
+                        
                             <g:sortableColumn property="ativo" title="${message(code: 'tipoEmprestimo.ativo.label', default: 'Ativo')}" />
                         
                         </tr>
@@ -43,7 +45,14 @@
                         
                             <td>${fieldValue(bean: tipoEmprestimoInstance, field: "taxaJurosAtraso")} %</td>
                         
-                            <td><g:formatNumber number="${tipoEmprestimoInstance.multaAtraso}" type="currency" currencyType="BRL" /></td>
+                            <td>
+                                <g:formatNumber number="${tipoEmprestimoInstance.multaAtraso}" type="currency" currencyType="BRL" />
+                            </td>
+                        
+                            <td>
+                                <span>${tipoEmprestimoInstance.multaAtrasoPercent}</span>
+                                <span> %</span>
+                            </td>
                         
                             <td><g:formatBoolean boolean="${tipoEmprestimoInstance.ativo}" /></td>
                         

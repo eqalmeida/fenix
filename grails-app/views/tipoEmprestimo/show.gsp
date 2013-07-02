@@ -50,6 +50,18 @@
                         </tr>
                     
                         <tr class="prop">
+                            <td valign="top" class="name">
+                                <g:message code="tipoEmprestimo.multaAtrasoPercent.label" default="Multa Atraso %" />
+                            </td>
+                            
+                            <td valign="top" class="value">
+                                <span>${tipoEmprestimoInstance.multaAtrasoPercent}</span>
+                                <span> %</span>
+                            </td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="tipoEmprestimo.ativo.label" default="Ativo" /></td>
                             
                             <td valign="top" class="value"><g:formatBoolean boolean="${tipoEmprestimoInstance?.ativo}" /></td>

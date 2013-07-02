@@ -201,9 +201,11 @@
         </g:if>
 
         <g:if test="${emprestimoInstance?.status > 0}">
+        <span> | </span>
           <span class="button">
 
             <modalbox:createLink
+              class="edit"
               controller="emprestimo"
               action="mudarStatusModal"
               id="${emprestimoInstance.id}"
@@ -268,15 +270,19 @@
             <td align="center" nowrap='nowrap'>
 
             <g:if test="${!parcelaInstance.pago}">
-              <g:link action="pagar" controller="parcela" id="${parcelaInstance.id}">Pagamento</g:link>
+              <g:link title="Registrar Pagamento" action="pagar" controller="parcela" id="${parcelaInstance.id}">Pagamento</g:link>
               <span> | </span>
             </g:if>
 
-            <g:link action="show" controller="parcela" id="${parcelaInstance.id}">Detalhes</g:link>
+            <g:link title="Exibir detalhes da parcela" action="show" controller="parcela" id="${parcelaInstance.id}">Detalhes</g:link>
 
           <span> | </span>
 
-            <g:link class="list" id="${parcelaInstance?.id}" target="_blank" controller="parcela" action="print">Imprimir</g:link>
+            <g:link 
+              title="Imprimir parcela"
+              class="list" 
+              id="${parcelaInstance?.id}" 
+              target="_blank" controller="parcela" action="print">Imprimir</g:link>
 
 
 
