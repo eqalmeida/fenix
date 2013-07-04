@@ -10,6 +10,7 @@ class Parcela {
     BigDecimal valor
     BigDecimal taxaJurosAtraso
     BigDecimal multaAtraso
+    BigDecimal multaAtrasoPercent = 0.0
     BigDecimal acrescimos = 0
     BigDecimal valorPago
     Date dataPagamento
@@ -26,6 +27,7 @@ class Parcela {
         previsaoDePagamento(nullable: true)
         valor(blank:false, scale:2)
         taxaJurosAtraso(scale:3, nullable:false)
+        multaAtrasoPercent(scale:4)
         acrescimos()
         valorPago(scale:2, nullable:true)
         dataPagamento(nullable:true)

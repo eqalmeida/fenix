@@ -8,19 +8,6 @@ class ParcelaController {
 
     def EmprestimoService
 
-
-    private void calculaAcrescimos(Parcela parcela){
-
-        def diasAtraso = (parcela.dataPagamento - parcela.vencimento);
-        if (diasAtraso > parcela.emprestimo.diasTolerancia){
-            parcela.acrescimos = (parcela.taxaJurosAtraso * diasAtraso * parcela.valor / 100)
-            parcela.acrescimos += parcela.multaAtraso
-            parcela.acrescimos = parcela.acrescimos.setScale(2, RoundingMode.DOWN);
-        } else
-        parcela.acrescimos = 0.0
-    }
-
-
     def updatePrevPag = {
         def parcela = Parcela.get(params.id)
         parcela.previsaoDePagamento =  Date.parse("dd/MM/yyyy",params.dataPrev)
@@ -31,8 +18,8 @@ class ParcelaController {
 
     def updateDataPag = {
         def parcela = Parcela.get(params.id)
-        parcela.dataPagamento =  Date.parse("dd/MM/yyyy",params.datapag)
-        calculaAcrescimos(parcela)
+        Date data =  Date.parse("dd/MM/yyyy",params.datapag)
+        EmprestimoService.calculaAcrescimos(parcela, data)
         render g.formatNumber([number:parcela.valorAtual, type: "currency", currencyType:"BRL"])
     }
 
@@ -48,7 +35,7 @@ class ParcelaController {
     }
 
     def pagar = {
-        def parcelaInstance = Parcela.get(params.id)
+        def parcelaInstance = Parcela.read(params.id)
         if (!parcelaInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
             redirect(action: "list")
@@ -59,48 +46,58 @@ class ParcelaController {
                 redirect(action:"show", controller:"emprestimo", id:parcelaInstance.emprestimo.id)
                 return true
             }
+            parcelaInstance.dataPagamento = new Date()
+
+            EmprestimoService.calculaAcrescimos(parcelaInstance, parcelaInstance.dataPagamento)
+
             [parcelaInstance: parcelaInstance]
         }
     }
 
     def regPagamento = {
-        def parcela = Parcela.get(params.id)
+
+        def parcela = Parcela.read(params.id)
         if (parcela){
             if(parcela.pago == false){
 
                 try{
-                    bindData(parcela, params);
+                    parcela.properties = params;
+
+                    EmprestimoService.calculaAcrescimos(parcela, parcela.dataPagamento)
+
                     def valorDev = parcela.valorAtual
-                    if((parcela.valorPago - valorDev).abs() < 0.01 ){
+                    
+                    if((parcela.valorPago - valorDev).abs() > 0.0 ){
+
+                        parcela.errors.rejectValue("valorPago", "O Valor pago não pode ser diferente do valor devido")                        
+                        forward(action:"pagar", controller:"parcela", id:parcela.id, parcelaInstance:parcela)
+                    }else{
                         parcela.usuario = session.usuario
                         parcela.pago = true
                         if(parcela.save(flush:true)){
                             flash.message = "Pagamento registrado!"
                             redirect(action:"show", controller:"emprestimo", id:parcela.emprestimo.id)
-                            return true
                         } else {
-                            flash.message = "Pagamento inválido!"
+                            flash.message = "Falha gravando dados!"
                             redirect(action:"pagar", controller:"parcela", id:parcela.id)
-                            return false
                         }
-
-                    } else {
-                        flash.message = "Valor inválido!"
-                        redirect(action:"pagar", controller:"parcela", id:parcela.id)
-                        return false
                     }
 
                 } catch(Exception e){
-                    flash.message = "Valor inválido!"
+                    flash.message = "erro"
                     redirect(action:"pagar", controller:"parcela", id:parcela.id)
                     return false
                 }
 
             }
         } else {
+            
             flash.message = "Erroooooooooooooooooooooooooooooooooooooooooooo!"
             redirect(action:"list")
         }
+
+        
+
     }
 
     def index = {

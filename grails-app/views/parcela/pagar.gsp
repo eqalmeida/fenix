@@ -30,9 +30,15 @@
                         <tbody>
                         
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="parcela.emprestimo.label" default="Emprestimo" /></td>
+                            <td valign="top" class="name">
+                                <g:message code="parcela.emprestimo.label" default="Emprestimo" />
+                            </td>
 
-                            <td valign="top" class="value"><g:link controller="emprestimo" action="show" id="${parcelaInstance?.emprestimo?.id}">${parcelaInstance?.emprestimo?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value">
+                                <g:link controller="emprestimo" action="show" id="${parcelaInstance?.emprestimo?.id}">
+                                ${parcelaInstance?.emprestimo?.encodeAsHTML()}
+                            </g:link>
+                        </td>
 
                         </tr>
 

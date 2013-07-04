@@ -2,11 +2,46 @@ package fenix
 
 import javax.servlet.http.HttpSession
 import org.springframework.web.context.request.RequestContextHolder
+import java.math.*
 
 
 class EmprestimoService {
 
     static transactional = true
+
+    void calculaAcrescimos(Parcela parcela, Date dataPag){
+
+        def diasAtraso = (dataPag - parcela.vencimento);
+        
+        if (diasAtraso > parcela.emprestimo.diasTolerancia){
+
+            //
+            // Calcula juros diário.
+            //
+            parcela.acrescimos = (parcela.taxaJurosAtraso * diasAtraso * parcela.valor / 100.0)
+            
+            //
+            // Acrescenta multa por atraso.
+            //
+            parcela.acrescimos += parcela.multaAtraso
+
+            //
+            // Acrescenta multa percentual
+            //
+            parcela.acrescimos += (parcela.multaAtrasoPercent * parcela.valor / 100.0)
+
+            //
+            // Arredonda na escala da moeda.
+            //
+            parcela.acrescimos = parcela.acrescimos.setScale(2, RoundingMode.DOWN);
+        } 
+        else {
+            parcela.acrescimos = 0.0    
+        }
+        
+    }
+
+
 
     def efetivar(Long id) {
         def emprestimo = Emprestimo.get(id)
@@ -60,6 +95,7 @@ class EmprestimoService {
                             boleto.vencimento = dataBoleto.time
                             boleto.taxaJurosAtraso = emprestimo.tipoEmprestimo.taxaJurosAtraso
                             boleto.multaAtraso = emprestimo.tipoEmprestimo.multaAtraso
+                            boleto.multaAtrasoPercent = emprestimo.tipoEmprestimo.multaAtrasoPercent
 
                             if(emprestimo.intervalo == 'mensal'){
                                 dataBoleto.add(Calendar.MONTH,1)
