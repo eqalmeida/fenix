@@ -77,9 +77,24 @@
         </tr>
 
         <tr class="prop">
-          <td valign="top" class="name"><g:message code="parcela.multaAtraso.label" default="Multa por atraso" /></td>
+          <td valign="top" class="name">
+            <g:message code="parcela.multaAtraso.label" default="Multa por atraso" />
+          </td>
 
-        <td valign="top" class="value"> <g:formatNumber number="${parcelaInstance.multaAtraso}" type="currency" currencyType="BRL" /></td>
+        <td valign="top" class="value"> 
+          <g:formatNumber number="${parcelaInstance.multaAtraso}" type="currency" currencyType="BRL" />
+        </td>
+
+        </tr>
+
+        <tr class="prop">
+          <td valign="top" class="name">
+            <g:message code="parcela.multaAtrasoPercent.label" default="Multa por atraso (%)" />
+          </td>
+
+        <td valign="top" class="value"> 
+          ${parcelaInstance.multaAtrasoPercent}
+        </td>
 
         </tr>
 

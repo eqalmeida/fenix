@@ -410,7 +410,7 @@ th.desc a {
     padding: 0;
 }
 
-.buttons input {
+.buttons input  {
     background: #fff;
     border: 0;
     color: #333;
@@ -429,6 +429,22 @@ th.desc a {
     background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
     padding-left: 28px;
 }
+.tbuttons .pag {
+    background: transparent url(../images/skin/check.png) 5px 50% no-repeat;
+    padding-left: 28px;
+}
+.tbuttons .pag-d {
+    background: transparent url(../images/skin/checkd.png) 5px 50% no-repeat;
+    padding-left: 28px;
+}
+.tbuttons .print {
+    background: transparent url(../images/skin/print.png) 5px 50% no-repeat;
+    padding-left: 28px;
+}
+.buttons .edit {
+    background: transparent url(../images/skin/database_edit.png) 5px 50% no-repeat;
+    padding-left: 28px;
+}
 .buttons input.save {
     background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 28px;
@@ -437,4 +453,9 @@ th.desc a {
 table.lista th {
     vertical-align: middle;
     text-align: center;
+}
+
+.link-disabled{
+    font-weight: bold;
+    color: #999;
 }

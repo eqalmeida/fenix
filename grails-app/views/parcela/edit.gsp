@@ -65,10 +65,24 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="multaAtraso"><g:message code="parcela.multaAtraso.label" default="Multa por atraso" /></label>
+                                  <label for="multaAtraso">
+                                    <g:message code="parcela.multaAtraso.label" default="Multa por atraso" />
+                                </label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'multaAtraso', 'errors')}">
                                     <g:textField name="multaAtraso" onkeypress="mascara(this,moeda)" value="${fieldValue(bean: parcelaInstance, field: 'multaAtraso')}" />
+                                </td>
+                            </tr>
+
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="multaAtrasoPercent">
+                                    <g:message code="parcela.multaAtrasoPercent.label" default="Multa por atraso (%)" />
+                                </label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'multaAtrasoPercent', 'errors')}">
+                                    <g:textField name="multaAtrasoPercent" value="${fieldValue(bean: parcelaInstance, field: 'multaAtrasoPercent')}" />
                                 </td>
                             </tr>
 

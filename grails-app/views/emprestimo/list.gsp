@@ -61,9 +61,13 @@
                         
                             <td>${fieldValue(bean: emprestimoInstance, field: "plano")}</td>
 
-                            <td>${fieldValue(bean: emprestimoInstance, field: "statusStr")}</td>
+                            <td nowrap="nowrap">
+                                ${fieldValue(bean: emprestimoInstance, field: "statusStr")}
+                            </td>
 
-                            <td><g:formatNumber number="${emprestimoInstance.valorLiberado}" type="currency" currencyType="BRL" /></td>
+                            <td nowrap="nowrap">
+                                <g:formatNumber number="${emprestimoInstance.valorLiberado}" type="currency" currencyType="BRL" />
+                            </td>
                         
                         </tr>
                     </g:each>

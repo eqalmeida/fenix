@@ -203,13 +203,14 @@
         <g:if test="${emprestimoInstance?.status > 0}">
         <span> | </span>
           <span class="button">
+          <span class="edit">
 
             <modalbox:createLink
-              class="edit"
               controller="emprestimo"
               action="mudarStatusModal"
               id="${emprestimoInstance.id}"
               title="Alterar status!" width="500">Alterar Status</modalbox:createLink>
+          </span>
           </span>
 
         </g:if>
@@ -253,7 +254,11 @@
           <g:each in="${emprestimoInstance.parcelas}" status="i" var="parcelaInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-              <td>${parcelaInstance.numero}</td>
+              <td>
+                <g:link title="Exibir detalhes da parcela" action="show" controller="parcela" id="${parcelaInstance.id}">
+                ${parcelaInstance.numero}
+              </g:link>
+              </td>
 
               <td><g:formatDate date="${parcelaInstance.vencimento}" format="dd/MM/yyyy" /></td>
 
@@ -268,22 +273,22 @@
             <td>${parcelaInstance.usuario}</td>
 
             <td align="center" nowrap='nowrap'>
-
+              <span class="tbuttons">
             <g:if test="${!parcelaInstance.pago}">
-              <g:link title="Registrar Pagamento" action="pagar" controller="parcela" id="${parcelaInstance.id}">Pagamento</g:link>
-              <span> | </span>
-            </g:if>
-
-            <g:link title="Exibir detalhes da parcela" action="show" controller="parcela" id="${parcelaInstance.id}">Detalhes</g:link>
-
-          <span> | </span>
+              <g:link title="Registrar Pagamento" action="pagar" class="pag" controller="parcela" id="${parcelaInstance.id}"></g:link>
+            </g:if><g:else>
+              <span class="pag-d"></span>
+          </g:else>
+            <span>  </span>
 
             <g:link 
               title="Imprimir parcela"
               class="list" 
               id="${parcelaInstance?.id}" 
-              target="_blank" controller="parcela" action="print">Imprimir</g:link>
+              target="_blank" controller="parcela" action="print" class="print"></g:link>
 
+
+              </span>
 
 
             </td>

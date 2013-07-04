@@ -33,13 +33,14 @@
         <thead>
           <tr>
 
+        <g:sortableColumn property="numero" title="${message(code: 'parcela.numero.label', default: 'Numero')}" />
+
+
             <th><g:message code="parcela.emprestimo.label" default="Emprestimo" /></th>
 
         <th>Status</th>
 
         <th>Espécie</th>
-
-        <g:sortableColumn property="numero" title="${message(code: 'parcela.numero.label', default: 'Numero')}" />
 
         <g:sortableColumn property="vencimento" title="${message(code: 'parcela.vencimento.label', default: 'Vencimento')}" />
 
@@ -54,13 +55,21 @@
         <g:each in="${parcelaInstanceList}" status="i" var="parcelaInstance">
           <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-            <td>${fieldValue(bean: parcelaInstance, field: "emprestimo")}</td>
+            <td>
+              <g:link title="Ver parcela" action="show" controller="parcela" id="${parcelaInstance?.id}">
+                ${fieldValue(bean: parcelaInstance, field: "numero")}
+              </g:link>
+            </td>
+
+            <td>
+              <g:link title="Ver transação" action="show" controller="emprestimo" id="${parcelaInstance?.emprestimo.id}">
+                ${fieldValue(bean: parcelaInstance, field: "emprestimo")}
+              </g:link>
+            </td>
 
             <td>${fieldValue(bean: parcelaInstance, field: "emprestimo.statusStr")}</td>
 
             <td>${fieldValue(bean: parcelaInstance, field: "emprestimo.especie")}</td>
-
-            <td>${fieldValue(bean: parcelaInstance, field: "numero")}</td>
 
             <td><g:formatDate date="${parcelaInstance?.vencimento}" /></td>
 
@@ -68,16 +77,21 @@
 
           <td><g:formatNumber number="${parcelaInstance?.valor}" type="currency" currencyType="BRL" /></td>
 
-          <td>
+          <td nowrap="nowrap">
+
+              <span class="tbuttons">
 
           <g:if test="${!parcelaInstance?.pago}">
-            <g:link action="pagar" controller="parcela" id="${parcelaInstance?.id}">Pagamento</g:link>
+            <g:link 
+              title="Registrar Pagamento"
+              class="pag" 
+              action="pagar" 
+              controller="parcela" id="${parcelaInstance?.id}"/>
           </g:if>
 
-          <g:link action="show" controller="parcela" id="${parcelaInstance?.id}">Detalhes</g:link>
+          <g:link title="Imprimir" class="print" id="${parcelaInstance?.id}" target="_blank" controller="parcela" action="print"/>
 
-
-          <g:link class="list" id="${parcelaInstance?.id}" target="_blank" controller="parcela" action="print">Imprimir</g:link>
+              </span>
 
           </td>
 

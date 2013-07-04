@@ -256,6 +256,7 @@ class ParcelaController {
                     outras.each {
                         it.valor = parcelaInstance.valor
                         it.multaAtraso = parcelaInstance.multaAtraso
+                        it.multaAtrasoPercent = parcelaInstance.multaAtrasoPercent
                         it.taxaJurosAtraso = parcelaInstance.taxaJurosAtraso
                         it.save(flush:true)
                     }
