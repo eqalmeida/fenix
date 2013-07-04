@@ -2,6 +2,8 @@ package fenix
 
 class Parcela {
 
+    def ParcelaService
+
     Emprestimo emprestimo
     Parcela parcelaAnt
     int numero
@@ -33,6 +35,10 @@ class Parcela {
         dataPagamento(nullable:true)
         pago()
         usuario(nullable:true)
+    }
+
+    def atualizaValorAtual(){
+        ParcelaService.calculaAcrescimos(this)
     }
 
 

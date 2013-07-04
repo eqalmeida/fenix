@@ -17,9 +17,9 @@ class ParcelaController {
     }
 
     def updateDataPag = {
-        def parcela = Parcela.get(params.id)
-        Date data =  Date.parse("dd/MM/yyyy",params.datapag)
-        EmprestimoService.calculaAcrescimos(parcela, data)
+        def parcela = Parcela.read(params.id)
+        parcela.dataPagamento =  Date.parse("dd/MM/yyyy",params.datapag)
+        parcela.atualizaValorAtual()
         render g.formatNumber([number:parcela.valorAtual, type: "currency", currencyType:"BRL"])
     }
 
@@ -48,7 +48,7 @@ class ParcelaController {
             }
             parcelaInstance.dataPagamento = new Date()
 
-            EmprestimoService.calculaAcrescimos(parcelaInstance, parcelaInstance.dataPagamento)
+            parcelaInstance.atualizaValorAtual()
 
             [parcelaInstance: parcelaInstance]
         }
@@ -63,7 +63,7 @@ class ParcelaController {
                 try{
                     parcela.properties = params;
 
-                    EmprestimoService.calculaAcrescimos(parcela, parcela.dataPagamento)
+                    parcela.atualizaValorAtual()
 
                     def valorDev = parcela.valorAtual
                     
