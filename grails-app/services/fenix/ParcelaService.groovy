@@ -6,6 +6,10 @@ class ParcelaService {
 
     static transactional = true
 
+    /**
+     * Calcula os acrescimos para uma parcela, na data informada.
+     * @param parcela Referência a parcela.
+     */
     void calculaAcrescimos(Parcela parcela){
 
         def diasAtraso = (parcela.dataPagamento - parcela.vencimento);
@@ -37,6 +41,5 @@ class ParcelaService {
         }
         
     }
-
 
 }

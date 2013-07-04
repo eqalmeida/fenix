@@ -7,6 +7,7 @@ class ParcelaController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def EmprestimoService
+    def SessionService
 
     def updatePrevPag = {
         def parcela = Parcela.get(params.id)
@@ -18,7 +19,14 @@ class ParcelaController {
 
     def updateDataPag = {
         def parcela = Parcela.read(params.id)
+
+        if(SessionService.parcelaId != parcela.id){
+            redirect(action:"pagar", controller:"parcela", id:parcela.id)
+            return
+        }
+
         parcela.dataPagamento =  Date.parse("dd/MM/yyyy",params.datapag)
+        SessionService.dataPagamento = parcela.dataPagamento
         parcela.atualizaValorAtual()
         render g.formatNumber([number:parcela.valorAtual, type: "currency", currencyType:"BRL"])
     }
@@ -35,19 +43,28 @@ class ParcelaController {
     }
 
     def pagar = {
+        
         def parcelaInstance = Parcela.read(params.id)
+
         if (!parcelaInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
             redirect(action: "list")
         }
         else {
+
             if(parcelaInstance.parcelaAnt && !parcelaInstance.parcelaAnt.pago){
+                SessionService.parcelaId = 0
                 flash.message = "A parcela anterior precisa ser paga primeiro!"
                 redirect(action:"show", controller:"emprestimo", id:parcelaInstance.emprestimo.id)
                 return true
             }
-            parcelaInstance.dataPagamento = new Date()
 
+            if( SessionService.parcelaId != parcelaInstance.id){
+                SessionService.parcelaId = parcelaInstance.id
+                SessionService.dataPagamento = new Date()
+            }
+
+            parcelaInstance.dataPagamento = SessionService.dataPagamento
             parcelaInstance.atualizaValorAtual()
 
             [parcelaInstance: parcelaInstance]
@@ -57,25 +74,61 @@ class ParcelaController {
     def regPagamento = {
 
         def parcela = Parcela.read(params.id)
+
+        if( SessionService.parcelaId != parcela?.id){
+            redirect(action:"pagar", controller:"parcela", id:parcela.id)
+            return
+        }
+
         if (parcela){
+
             if(parcela.pago == false){
 
                 try{
                     parcela.properties = params;
 
+                    parcela.dataPagamento = SessionService.dataPagamento
                     parcela.atualizaValorAtual()
 
                     def valorDev = parcela.valorAtual
                     
-                    if((parcela.valorPago - valorDev).abs() > 0.0 ){
-
-                        parcela.errors.rejectValue("valorPago", "O Valor pago não pode ser diferente do valor devido")                        
+                    if((parcela.valorPago > valorDev)){
+                        parcela.errors.rejectValue("valorPago", "O Valor pago não pode ser maior do que o valor devido")
                         forward(action:"pagar", controller:"parcela", id:parcela.id, parcelaInstance:parcela)
                     }else{
                         parcela.usuario = session.usuario
                         parcela.pago = true
                         if(parcela.save(flush:true)){
-                            flash.message = "Pagamento registrado!"
+
+                            if(parcela.valorPago < valorDev){
+                                def resto = new Parcela()
+
+                                resto.emprestimo = parcela.emprestimo
+                                resto.numero = parcela.numero
+                                resto.vencimento = parcela.vencimento
+                                resto.valor = (parcela.valorAtual - parcela.valorPago)
+                                resto.taxaJurosAtraso = parcela.taxaJurosAtraso
+                                
+                                if(parcela.dataPagamento > parcela.vencimento) {
+                                    resto.multaAtraso = 0.0
+                                    resto.multaAtrasoPercent = 0.0
+                                }
+                                else{
+                                    resto.multaAtraso = parcela.multaAtraso
+                                    resto.multaAtrasoPercent = parcela.multaAtrasoPercent
+                                }
+
+                                resto.save()
+
+                                flash.message = "Pagamento parcial registrado registrado!"
+                            }
+                            else{
+
+                                flash.message = "Pagamento registrado!"
+                            }
+
+                            SessionService.parcelaId = 0
+
                             redirect(action:"show", controller:"emprestimo", id:parcela.emprestimo.id)
                         } else {
                             flash.message = "Falha gravando dados!"
