@@ -98,7 +98,13 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="regPagamento" value="Registrar Pagamento" /></span>
+                    <span class="button">
+                        <g:actionSubmit
+                            onclick="return confirm('Confirma o registro do pagamento?');" 
+                            class="save" 
+                            action="regPagamento" 
+                            value="Registrar Pagamento" />
+                    </span>
                 </div>
             </g:form>
         </div>

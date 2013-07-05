@@ -19,7 +19,7 @@ class Parcela {
     Boolean pago = false
     Usuario usuario
 
-    static transients = ["valorAtual"]
+    static transients = ["valorAtual", "valorFaltante"]
 
     static constraints = {
         emprestimo()
@@ -44,5 +44,12 @@ class Parcela {
 
     BigDecimal getValorAtual(){
         this.valor + this.acrescimos
+    }
+
+    BigDecimal getValorFaltante(){
+        if(!pago){
+            return getValorAtual()
+        }
+        return(getValorAtual() - valorPago)
     }
 }

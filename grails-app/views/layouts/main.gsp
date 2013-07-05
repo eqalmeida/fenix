@@ -27,7 +27,7 @@
     <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
   </div>
   -->
-    <div id="top">
+    <div id="top" class="tlogo">
         <h1>CONTROLE DE NEGOCIAÇÕES - FENIX MOTOS</h1>
     </div>
 

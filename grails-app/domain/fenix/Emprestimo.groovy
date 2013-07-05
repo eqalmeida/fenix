@@ -7,7 +7,7 @@ class Emprestimo {
     static transients = [ "valorFinanciado", "montante", "statusStr","valorParcelaEstimado"]
 
     static mapping = { 
-        parcelas sort:'numero' 
+        parcelas sort:'vencimento' 
         obs sort:'data', order:'desc'
     }
 
@@ -35,6 +35,20 @@ class Emprestimo {
     String chassi
     String cor
     String tipoCombustivel
+
+    /**
+     * Retorna a lista de parcelas referentes ao empréstimo
+     * na ordem correta.
+     */
+    def getListaParcelas(){
+
+        def lista = Parcela.createCriteria().list {
+            eq('emprestimo', this)
+            order('numero', 'asc')
+            order('id', 'asc')
+        }
+        return lista
+    }
 
     BigDecimal getMontante(){
         return (this.valorParcela * this.numParcelas)

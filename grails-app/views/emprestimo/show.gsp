@@ -240,6 +240,8 @@
 
               <th>${message(code: 'parcela.acrescimos.label', default: 'Acrescimos')}</th>
 
+              <th>Total</th>
+
               <th>${message(code: 'parcela.valorPago.label', default: 'Valor Pago')}</th>
 
               <th>${message(code: 'parcela.dataPagamento.label', default: 'Data Pagamento')} </th>
@@ -251,7 +253,7 @@
             </tr>
           </thead>
           <tbody>
-          <g:each in="${emprestimoInstance.parcelas}" status="i" var="parcelaInstance">
+          <g:each in="${emprestimoInstance.listaParcelas}" status="i" var="parcelaInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
               <td>
@@ -268,7 +270,17 @@
 
             <td><g:formatNumber number="${parcelaInstance.valor}" type="currency" currencyCode="BRL" /></td>
 
-            <td><g:formatNumber number="${parcelaInstance.acrescimos}" type="currency" currencyCode="BRL" /></td>
+            <td>
+              <g:if test="${parcelaInstance.pago}">
+                <g:formatNumber number="${parcelaInstance.acrescimos}" type="currency" currencyCode="BRL" />
+              </g:if>
+            </td>
+
+            <td>
+              <g:if test="${parcelaInstance.pago}">
+                <g:formatNumber number="${parcelaInstance.valorAtual}" type="currency" currencyCode="BRL" />
+              </g:if>
+            </td>
 
             <td><g:formatNumber number="${parcelaInstance.valorPago}" type="currency" currencyCode="BRL" /></td>
 
