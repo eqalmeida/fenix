@@ -1,5 +1,7 @@
 html * {
     margin: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
     /*padding: 0; SELECT NOT DISPLAYED CORRECTLY IN FIREFOX */
 }
 #menubv {
@@ -9,7 +11,7 @@ html * {
     width: 180px;
     padding: 0;
     margin: 0px;
-    font: 12px Verdana, sans-serif;
+    
     height: 1200px;
     background: #e2e2e2 url(../images/menu-bg.png) right repeat-y ;
 }
@@ -69,7 +71,6 @@ html * {
     background-color: #515151;
     color: #fff;
     height: 60px;
-    font-family: Verdana, sans-serif;
     border-bottom: solid 2px #999;
 }
 
@@ -108,14 +109,22 @@ html * {
 body {
     background: #fff;
     color: #000;
-    font: 11px verdana, arial, helvetica, sans-serif;
+    /*font: 11px verdana, arial, helvetica, sans-serif;*/
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
 }
 #grailsLogo {
     padding:20px;
 }
 
 a:link, a:visited, a:hover {
-    color: #333;
+    color: #606060;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000;
     font-weight: bold;
     text-decoration: none;
 }
@@ -155,11 +164,10 @@ input, select, textarea {
     border-color: #ccc #999 #999 #ccc;
     height: 22px;
     vertical-align:  middle;
-
     background-color: #fcfcfc;
-    font: 11px verdana, arial, helvetica, sans-serif;
     margin: 2px 0;
     padding: 2px 4px;
+    font-size: 11px;
 }
 select {
     padding: 2px 2px 2px 0;
@@ -275,7 +283,8 @@ tr {
     border: 0;
 }
 td, th {
-    font: 11px verdana, arial, helvetica, sans-serif;
+    /*font: 11px verdana, arial, helvetica, sans-serif;*/
+    font-size: 12px;
     line-height: 12px;
     padding: 5px 6px;
     text-align: left;
@@ -293,7 +302,6 @@ th {
 th a:link, th a:visited, th a:hover {
     color: #665b66;
     display: block;
-    font-size: 10px;
     text-decoration: none;
     width: 100%;
 }
@@ -404,7 +412,6 @@ th.desc a {
     background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
     border: 1px solid #ccc;
     color: #333;
-    font-size: 10px;
     margin-top: 5px;
     overflow: hidden;
     padding: 0;
@@ -415,7 +422,6 @@ th.desc a {
     border: 0;
     color: #333;
     cursor: pointer;
-    font-size: 10px;
     font-weight: bold;
     margin-left: 3px;
     overflow: visible;
@@ -459,3 +465,31 @@ table.lista th {
     font-weight: bold;
     color: #999;
 }
+
+.label {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    display: inline-block;
+    -moz-border-radius: 3px;
+    border-radius: 3px;    
+    padding: 2px 3px;
+    font-size: 11.844px;
+    font-weight: bold;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.greenlabel {
+    background-color: rgb(70, 136, 71);
+    color: #FFF;
+}
+.redlabel{
+    background-color: rgb(185, 74, 72);
+    color: #FFF;
+}
+.infolabel{
+    background-color: rgb(58, 135, 173);
+    color: #FFF;
+}
+
+

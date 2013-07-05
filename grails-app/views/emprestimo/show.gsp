@@ -260,7 +260,11 @@
               </g:link>
               </td>
 
-              <td><g:formatDate date="${parcelaInstance.vencimento}" format="dd/MM/yyyy" /></td>
+              <td>
+                <div class="label ${parcelaInstance.pago?'greenlabel':(new Date() > parcelaInstance.vencimento)?'redlabel':'infolabel'}">
+                  <g:formatDate date="${parcelaInstance.vencimento}" format="dd/MM/yyyy" />
+                </div>
+              </td>
 
             <td><g:formatNumber number="${parcelaInstance.valor}" type="currency" currencyCode="BRL" /></td>
 

@@ -78,20 +78,9 @@
 
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="acrescimos">
-                                    <g:message code="parcela.acrescimos.label" default="Acréscimos" />
-                                </label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'acrescimos', 'errors')}">
-                                    <g:formatNumber number="${parcelaInstance.acrescimos}" type="currency" currencyCode="BRL"/>
-                                </td>
-                            </tr>
-
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                   <label for="valorAtual"><g:message code="parcela.valorAtual.label" default="Valor Atual" /></label>
                                 </td>
-                                <td valign="top" id="valorC" class="value ${hasErrors(bean: parcelaInstance, field: 'valorAtual', 'errors')}">
+                                <td valign="top" id="valorC">
                                     <g:formatNumber number="${parcelaInstance.valorAtual}" type="currency" currencyCode="BRL"/>
                                 </td>
                             </tr>
