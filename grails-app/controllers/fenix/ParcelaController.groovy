@@ -61,7 +61,15 @@ class ParcelaController {
                 return true
             }
 
-            if(parcelaInstance.parcelaAnt && !parcelaInstance.parcelaAnt.pago){
+            def anteriores = Parcela.createCriteria().list {
+                and{
+                    eq('emprestimo', parcelaInstance.emprestimo)    
+                    eq('pago', false) 
+                    lt('vencimento', parcelaInstance.vencimento)   
+                }
+            }
+
+            if(anteriores.size() > 0){
                 session["parcelaId"] = 0
                 flash.message = "A parcela anterior precisa ser paga primeiro!"
                 redirect(action:"show", controller:"emprestimo", id:parcelaInstance.emprestimo.id)
