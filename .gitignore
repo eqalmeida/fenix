@@ -1,0 +1,10 @@
+# Ignorar arquivos específicos
+.DS_Store
+
+# Use curingas como
+*~
+*.swp
+*.data
+
+# Ignorar todos os diretórios e arquivos em um diretório.
+tmp/**/* 
