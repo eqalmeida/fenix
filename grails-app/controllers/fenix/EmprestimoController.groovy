@@ -67,18 +67,20 @@ class EmprestimoController {
     }
 
     def deleteObsAjax = {
-        def obs = Observacao.get(params.id)
+        def obs = Observacao.read(params.id)
         obs.ativo = false
+        obs.save(flush: true)
 
-        render(template: 'obs', model:[emprestimoInstance: obs.emprestimo, obsList:obs.emprestimo.obs])
+        render(template: 'obs', model:[emprestimoInstance: obs.emprestimo, obsList:obs.emprestimo.listaObs])
 
     }
     
     def undeleteObsAjax = {
-        def obs = Observacao.get(params.id)
+        def obs = Observacao.read(params.id)
         obs.ativo = true
+        obs.save(flush: true)
 
-        render(template: 'obs', model:[emprestimoInstance: obs.emprestimo, obsList:obs.emprestimo.obs])
+        render(template: 'obs', model:[emprestimoInstance: obs.emprestimo, obsList:obs.emprestimo.listaObs])
 
     }
 
@@ -105,7 +107,7 @@ class EmprestimoController {
         if (!obs.save(flush:true)){
             flash.erros = "Não foi possível gravar"
         }
-        render(template: 'obs', model:[emprestimoInstance: emprestimo, obsList:emprestimo.obs])
+        render(template: 'obs', model:[emprestimoInstance: emprestimo, obsList:emprestimo.listaObs])
     }
 
     def efetivar = {

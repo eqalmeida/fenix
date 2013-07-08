@@ -319,7 +319,7 @@
     <h2>Observações</h2>
     
     <div id="obsInc">
-      <g:render template="obs" model="[emprestimoInstance: emprestimoInstance, obsList:emprestimoInstance.obs]" />
+      <g:render template="obs" model="[emprestimoInstance: emprestimoInstance, obsList:emprestimoInstance.listaObs]" />
     </div>
 
 

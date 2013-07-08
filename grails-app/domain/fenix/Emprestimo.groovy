@@ -50,6 +50,16 @@ class Emprestimo {
         return lista
     }
 
+    def getListaObs(){
+
+        def lista = Observacao.createCriteria().list {
+            eq('emprestimo', this)
+            order('ativo', 'desc')
+            order('data', 'desc')
+        }
+        return lista
+    }
+
     BigDecimal getMontante(){
         return (this.valorParcela * this.numParcelas)
     }

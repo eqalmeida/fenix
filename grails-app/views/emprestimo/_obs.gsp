@@ -1,6 +1,6 @@
 <%@ page import="fenix.Emprestimo; fenix.Observacao" %>
 
-<g:form>
+
 
 <g:each in="${obsList}" var="o">
   <div style="padding:4px; border-top: solid 1px #eee">
@@ -34,7 +34,7 @@
     </div>
   </g:if>
 
-  
+  <g:form>
     <g:hiddenField name="id" value="${emprestimoInstance?.id}"/>
     <div style="width: 500px">
       <g:textArea name="observ" cols="40" rols="5" />
