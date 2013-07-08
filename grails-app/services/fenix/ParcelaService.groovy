@@ -68,7 +68,7 @@ class ParcelaService {
                 val = moeda.format(parcela.valorPago)    
             }
 
-            def log = new Log(usuario: session["usuario"], data: new Date())
+            def log = new Log(usuario: usuario, data: new Date())
             log.descricao = "O pagamento da parcela num.: ${parcela.id} no valor:  ${val}, pago em ${parcela.dataPagamento} foi cancelado";
             log.save(flush:true)
 

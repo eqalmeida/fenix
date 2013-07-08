@@ -190,11 +190,6 @@ class ParcelaController {
      */
     def cancelPayment = {
         
-        if(session.usuario.perfil != "admin") {
-            flash.message = "Acesso negado"
-            return
-        }
-
         def parcela = Parcela.get(params.id)
 
         if(!parcela){
