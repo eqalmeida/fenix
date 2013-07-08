@@ -66,6 +66,22 @@ class EmprestimoController {
         render select(from:tipo?.planos, name:'plano.id', optionKey:'id')
     }
 
+    def deleteObsAjax = {
+        def obs = Observacao.get(params.id)
+        obs.ativo = false
+
+        render(template: 'obs', model:[emprestimoInstance: obs.emprestimo, obsList:obs.emprestimo.obs])
+
+    }
+    
+    def undeleteObsAjax = {
+        def obs = Observacao.get(params.id)
+        obs.ativo = true
+
+        render(template: 'obs', model:[emprestimoInstance: obs.emprestimo, obsList:obs.emprestimo.obs])
+
+    }
+
     def addObs = {
         def emprestimo = Emprestimo.get(params.id)
         def obs = new Observacao()
@@ -77,6 +93,19 @@ class EmprestimoController {
             flash.erros = "Não foi possível gravar"
         }
         redirect(action: "show", id:emprestimo.id)
+    }
+
+    def addObsAjax = {
+        def emprestimo = Emprestimo.get(params.id)
+        def obs = new Observacao()
+        obs.emprestimo = emprestimo
+        obs.usuario = session.usuario
+        obs.data = new Date()
+        obs.obs = params.observ
+        if (!obs.save(flush:true)){
+            flash.erros = "Não foi possível gravar"
+        }
+        render(template: 'obs', model:[emprestimoInstance: emprestimo, obsList:emprestimo.obs])
     }
 
     def efetivar = {
@@ -157,7 +186,7 @@ class EmprestimoController {
             redirect(action: "list")
         }
         else {
-            [emprestimoInstance: emprestimoInstance]
+            [emprestimoInstance: emprestimoInstance, obsList:emprestimoInstance.obs]
         }
     }
 

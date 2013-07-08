@@ -8,6 +8,7 @@ class Observacao {
     Usuario usuario
     Emprestimo emprestimo
     Date data = new Date()
+    boolean ativo = true
 
     static mapping = {
         sort data: "desc"
@@ -17,5 +18,6 @@ class Observacao {
         obs(blank:false, maxSize:255)
         usuario(nullable:false)
         data()
+        ativo()
     }
 }

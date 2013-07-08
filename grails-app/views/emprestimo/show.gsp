@@ -317,35 +317,11 @@
     </g:if>
 
     <h2>Observações</h2>
-    <g:each in="${emprestimoInstance.obs}" var="o">
-      <div style="padding:4px; border-top: solid 1px #eee">
-        <p><strong><g:formatDate date="${o.data}"/></strong> - ${o.usuario}<p/>
-        <p><i>${o.obs}</i></p>
-      </div>
-    </g:each>
-
-    <div id="coments">
-      <g:if test="${flash.erros}">
-        <div class="errors">
-          <ul>
-            <li>${flash.erros}</li>
-          </ul>
-        </div>
-      </g:if>
-
-      <g:form>
-        <g:hiddenField name="id" value="${emprestimoInstance?.id}"/>
-        <div style="width: 500px">
-          <g:textArea name="observ" cols="40" rols="5" />
-        </div>
-        <div>
-          <g:actionSubmit action="addObs" class="edit" value="Gravar observação" />
-        </div>
-      </g:form>
+    
+    <div id="obsInc">
+      <g:render template="obs" model="[emprestimoInstance: emprestimoInstance, obsList:emprestimoInstance.obs]" />
     </div>
 
-    <br />
-  </div>
 
 </body>
 </html>
