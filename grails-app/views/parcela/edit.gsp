@@ -33,9 +33,16 @@
                                   <label for="emprestimo"><g:message code="parcela.emprestimo.label" default="Empréstimo" /></label>
                                 </td>
                               
-        <td valign="top" class="value"><g:link controller="emprestimo" action="show" id="${parcelaInstance?.emprestimo?.id}">${parcelaInstance?.emprestimo?.encodeAsHTML()}</g:link></td>
+                                <td valign="top" class="value">
+                                    <g:link controller="emprestimo" 
+                                        action="show" id="${parcelaInstance?.emprestimo?.id}">
+                                        ${parcelaInstance?.emprestimo?.encodeAsHTML()}
+                                    </g:link>
+                            </td>
                             </tr>
                         
+                            <g:if test="${parcelaInstance?.pago == false}">
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="vencimento"><g:message code="parcela.vencimento.label" default="Vencimento" /></label>
@@ -59,7 +66,11 @@
                                   <label for="valor"><g:message code="parcela.valor.label" default="Valor" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'valor', 'errors')}">
-                                    <g:textField name="valor" onkeypress="mascara(this,moeda)" value="${fieldValue(bean: parcelaInstance, field: 'valor')}" />
+                                    <g:textField 
+                                        value="${g.formatNumber(number: parcelaInstance?.valor, format:'#,##0.00')}" 
+                                        name="valor" 
+                                        onkeypress="mascara(this,moeda)" 
+                                        />
                                 </td>
                             </tr>
                         
@@ -95,30 +106,37 @@
                                 </td>
                             </tr>
 
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="valorPago"><g:message code="parcela.valorPago.label" default="Valor Pago" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'valorPago', 'errors')}">
-                                    <g:textField name="valorPago" onkeypress="mascara(this,moeda)" value="${fieldValue(bean: parcelaInstance, field: 'valorPago')}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="dataPagamento"><g:message code="parcela.dataPagamento.label" default="Data Pagamento" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'dataPagamento', 'errors')}">
-                                    <calendar:datePicker name="dataPagamento"  dateFormat="%d/%m/%Y" showTime="false" value="${parcelaInstance?.dataPagamento}" />
-                                </td>
-                            </tr>
+                            </g:if>
+                            <g:else>
+
+                                <tr class="prop">
+                                    <td valign="top" class="name">
+                                      <label for="valorPago"><g:message code="parcela.valorPago.label" default="Valor Pago" /></label>
+                                    </td>
+                                    <td valign="top" class="value">
+                                        <g:formatNumber number="${parcelaInstance?.valorPago}" 
+                                            type="currency" currencyCode="BRL" />
+                                    </td>
+                                </tr>
+                            
+                                <tr class="prop">
+                                    <td valign="top" class="name">
+                                      <label for="dataPagamento"><g:message code="parcela.dataPagamento.label" default="Data Pagamento" /></label>
+                                    </td>
+                                    <td valign="top" class="value">
+                                        <g:formatDate format="dd/MM/yyyy" date="${parcelaInstance?.dataPagamento}"/>
+                                    </td>
+                                </tr>
+
+                            </g:else>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="pago"><g:message code="parcela.pago.label" default="Pago" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'pago', 'errors')}">
-                                    <g:checkBox name="pago" value="${parcelaInstance?.pago}" />
+                                <td valign="top" class="value">
+                                    <span>${parcelaInstance?.pago ? 'Sim' : 'Não'}</span>
+                                    
                                 </td>
                             </tr>
                                                 

@@ -18,4 +18,8 @@ class Usuario {
 
     String toString(){"${this.nome}"}
 
+    Boolean isAdmin(){
+        (this.perfil == "admin") 
+    }
+
 }

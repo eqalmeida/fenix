@@ -7,6 +7,7 @@ class ParcelaController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def EmprestimoService
+    def ParcelaService
 
     def updatePrevPag = {
         def parcela = Parcela.get(params.id)
@@ -181,6 +182,34 @@ class ParcelaController {
         }
 
         
+
+    }
+
+    /**
+     * Cancela Pagamento Registrado
+     */
+    def cancelPayment = {
+        
+        if(session.usuario.perfil != "admin") {
+            flash.message = "Acesso negado"
+            return
+        }
+
+        def parcela = Parcela.get(params.id)
+
+        if(!parcela){
+            flash.message = "Parcela não encontrada!"
+            return
+        }
+
+        try{
+            parcelaService.cancelaPagamento(parcela, session)
+        }
+        catch(ParcelaException pe){
+            flash.message = pe.message
+        }
+        
+        redirect(action: "show", id:parcela.id)
 
     }
 

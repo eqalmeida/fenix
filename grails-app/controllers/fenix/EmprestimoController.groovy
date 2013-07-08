@@ -192,7 +192,7 @@ class EmprestimoController {
             redirect(action: "list")
         }
         else {
-            [emprestimoInstance: emprestimoInstance, obsList:emprestimoInstance.obs]
+            [emprestimoInstance: emprestimoInstance, obsList:emprestimoInstance.listaObs]
         }
     }
 
