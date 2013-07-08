@@ -499,4 +499,23 @@ table.lista th {
     color: #FFF;
 }
 
+.obs-text {
+    font-size: 14px;
+}
+
+.cancelado {
+    text-decoration: line-through;    
+    color: #AAA;
+}
+
+.linkn a {
+    font-weight:normal;
+    text-decoration: none;
+    color: #33c;
+}
+
+.linkn a:hover {
+    text-decoration: underline;
+}
+
 

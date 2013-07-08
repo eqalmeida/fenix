@@ -98,6 +98,7 @@ class EmprestimoController {
     }
 
     def addObsAjax = {
+        flash.erros = ""
         def emprestimo = Emprestimo.get(params.id)
         def obs = new Observacao()
         obs.emprestimo = emprestimo
@@ -107,7 +108,10 @@ class EmprestimoController {
         if (!obs.save(flush:true)){
             flash.erros = "Não foi possível gravar"
         }
-        render(template: 'obs', model:[emprestimoInstance: emprestimo, obsList:emprestimo.listaObs])
+        else{
+            params.observ = ""
+        }
+        render(template: 'obs', model:[emprestimoInstance: emprestimo, obsList:emprestimo.listaObs, observ:params.observ])
     }
 
     def efetivar = {
