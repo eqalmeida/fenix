@@ -146,10 +146,6 @@
     <div class="buttons">
       <g:form>
         <g:hiddenField name="id" value="${parcelaInstance?.id}" />
-        <span class="button">
-          <g:actionSubmit class="edit" action="edit" 
-            value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
-        </span>
         
         <g:if test="${parcelaInstance?.pago}">
         <span class="button">
@@ -158,6 +154,12 @@
             onclick="return confirm('Você está cancelando este pagamento. Tem certeza?');" />
         </span>
         </g:if>
+        <g:else>
+          <span class="button">
+            <g:actionSubmit class="edit" action="edit" 
+              value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+          </span>
+        </g:else>
 
       </g:form>
     </div>

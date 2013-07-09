@@ -198,13 +198,16 @@ class ParcelaController {
         }
 
         try{
+            flash.message = "Pagamento da parcela ${parcela.numero} cancelado."
             parcelaService.cancelaPagamento(parcela, session)
+            redirect(controller:"emprestimo", action: "show", id:parcela.emprestimo.id)
         }
         catch(ParcelaException pe){
             flash.message = pe.message
+            redirect(action: "show", id:parcela.id)
         }
         
-        redirect(action: "show", id:parcela.id)
+        
 
     }
 

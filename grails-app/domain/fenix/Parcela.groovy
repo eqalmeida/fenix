@@ -5,7 +5,6 @@ class Parcela {
     def ParcelaService
 
     Emprestimo emprestimo
-    Parcela parcelaAnt
     int numero
     Date vencimento
     Date previsaoDePagamento
@@ -23,7 +22,6 @@ class Parcela {
 
     static constraints = {
         emprestimo()
-        parcelaAnt(nullable:true)
         numero(nullable:false, range:1..150)
         vencimento(blank:false)
         previsaoDePagamento(nullable: true)

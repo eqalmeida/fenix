@@ -500,7 +500,7 @@ table.lista th {
 }
 
 .obs-text {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .cancelado {
@@ -516,6 +516,23 @@ table.lista th {
 
 .linkn a:hover {
     text-decoration: underline;
+}
+
+table.noborder {
+    border: none;
+    border-collapse: collapse;
+}
+
+table.noborder td { 
+    padding: 5px 5px;
+}
+
+table.noborder tr:hover { 
+    background: #b2d1ff;
+}
+
+tr.cinza {
+    background: #eFeFeF;
 }
 
 

@@ -1,11 +1,19 @@
 <%@ page import="fenix.Emprestimo; fenix.Observacao" %>
-<g:each in="${obsList}" var="o">
-  <div style="padding:4px; margin-top: 5px;">
+
+<table class="noborder">
+<g:each in="${obsList}" var="o" status="i">
+  <tr class="${((i % 2) == 0)?'cinza':'branco'}">
+    <td>
     <div class="obs-text ${o.ativo ? '' : 'cancelado'}">${o.obs}</div>
     <div style="color:#999">
       <strong><g:formatDate date="${o.data}"/></strong> / ${o.usuario}
-      <span> </span>
-      <span class="linkn" style="float:right;">
+    </div>
+      
+
+    </td>
+    <td>
+      
+      <span class="linkn">
       <g:if test="${o.ativo}">
         <g:remoteLink 
           action="deleteObsAjax" 
@@ -19,9 +27,11 @@
           params="[id:o.id]">Reativar</g:remoteLink>
         </g:else>
       </span>
-    </div>
-  </div>
+
+    </td>
+  </tr>
 </g:each>
+</table>
 
 <div id="coments">
   <g:if test="${flash.erros}">
@@ -43,7 +53,5 @@
       <g:submitToRemote action="addObsAjax" class="edit" value="Gravar observação" update="obsInc"/>
     </div>
   </g:form>
-
-
 
 </div>

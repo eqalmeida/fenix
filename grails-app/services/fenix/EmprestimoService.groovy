@@ -49,15 +49,11 @@ class EmprestimoService {
                                 throw new RuntimeException("A soma das parcelas é inferior ao montante!");
                         }
                         def boleto = null
-                        def boletoAnt = null
                         for(par in 1..(emprestimo.numParcelas)){
                             boleto = new Parcela()
                             boleto.numero = par
                             boleto.emprestimo = emprestimo
                             boleto.valor = valorParcela
-                            if(boletoAnt){
-                                boleto.parcelaAnt = boletoAnt
-                            }
                             //boleto.usuario = emprestimoInstance.usuario
                             boleto.vencimento = dataBoleto.time
                             boleto.taxaJurosAtraso = emprestimo.tipoEmprestimo.taxaJurosAtraso
@@ -77,7 +73,6 @@ class EmprestimoService {
                             if(!boleto.save(flush:true)){
                                 throw new RuntimeException("Erro gerando parcelas")
                             }
-                            boletoAnt = boleto
 
                         }
                         /*                        def cliente = Cliente.get(emprestimo.cliente.id)
