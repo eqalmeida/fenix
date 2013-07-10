@@ -10,8 +10,6 @@ class EmprestimoController {
 
    // def BackupService
 
-    def nomes = [0:"Não Efetivados",1:"Regulares",2:"Cancelados",3:"Congelados",4:"Em Acordo",5:"Em Protesto",6:"Em Atraso", 7:"Quitados"]
-
     def chart = {
     //BackupService.efetuarBackup()
 
@@ -19,7 +17,7 @@ class EmprestimoController {
         def values = []
         def valor = 0
         def total = 0
-        nomes.each {
+        Emprestimo.statusNames.each {
             valor = Emprestimo.findAllByStatus(it.key).size()
             if (valor > 0){
                 labels.add(it.value)
@@ -139,14 +137,25 @@ class EmprestimoController {
         def stat = ""
         def size = 0
         if(params.status){
-            stat = nomes[params.status.toInteger()]
+            stat = Emprestimo.statusNames[params.status.toInteger()]
             emp = Emprestimo.findAllByStatus(params.status, params)
             size = Emprestimo.findAllByStatus(params.status).size()
         } else {
             emp = Emprestimo.list(params)
             size = Emprestimo.count()
         }
-        [emprestimoInstanceList: emp, emprestimoInstanceTotal: size, stat: stat, status: params.status, statusNomes:nomes]
+		
+		def namesMap = [:]
+		
+        Emprestimo.statusNames.each {
+            def qtd = Emprestimo.findAllByStatus(it.key).size()
+            if (qtd > 0){
+				namesMap.put(it.key, "${it.value} (${qtd})")
+            }
+        }
+		
+		
+        [emprestimoInstanceList: emp, emprestimoInstanceTotal: size, stat: stat, status: params.status, statusNomes:namesMap]
     }
 
     def create = {

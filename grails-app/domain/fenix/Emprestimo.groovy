@@ -5,6 +5,7 @@ class Emprestimo {
     static hasMany = [parcelas: Parcela, obs: Observacao]
 
     static transients = [ "valorFinanciado", "montante", "statusStr","valorParcelaEstimado"]
+	static statusNames = [0:"Não Efetivado",1:"Regular",2:"Cancelado",3:"Congelado",4:"Acordo",5:"Protesto",6:"Em Atraso", 7:"Quitado"]
 
     static mapping = { 
         parcelas sort:'vencimento' 
@@ -69,8 +70,7 @@ class Emprestimo {
     }
 
     String getStatusStr(){
-        def nomes = [0:"Não Efetivado",1:"Regular",2:"Cancelado",3:"Congelado",4:"Acordo",5:"Protesto",6:"Em Atraso", 7:"Quitado"]
-        return nomes[this.status]
+        return Emprestimo.statusNames[this.status]
     }
 
     BigDecimal getValorFinanciado(){

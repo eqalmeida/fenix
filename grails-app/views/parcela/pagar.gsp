@@ -90,7 +90,8 @@
                                   <label for="valorPago"><g:message code="parcela.valorPago.label" default="Valor Pago" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: parcelaInstance, field: 'valorPago', 'errors')}">
-                                    <g:textField name="valorPago" onkeypress="mascara(this,moeda)" value="${fieldValue(bean: parcelaInstance, field: 'valorPago')}" />
+                                    <g:textField name="valorPago" onkeypress="mascara(this,moeda)" 
+									value="${g.formatNumber(number: parcelaInstance?.valorPago, format: '#,##0.00')}" />
                                 </td>
                             </tr>
                                                 
