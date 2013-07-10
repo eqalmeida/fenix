@@ -5,6 +5,8 @@
 *~
 *.swp
 *.data
+*.war
+*.class
 
 # Ignorar todos os diretórios e arquivos em um diretório.
 tmp/**/* 
