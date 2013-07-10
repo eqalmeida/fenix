@@ -84,18 +84,17 @@
 
             <g:if test="${tipoEmprestimoInstance.planos}">
 
-            <h2>Planos</h2>
+        
 
-                        <div class="list">
+                <div class="list">
                 <table>
+                <caption>Planos</caption>
                     <thead>
                         <tr>
 
-                            <g:sortableColumn property="id" title="${message(code: 'plano.id.label', default: 'Id')}" />
-
-                            <g:sortableColumn property="numParcelas" title="${message(code: 'plano.numParcelas.label', default: 'Num Parcelas')}" />
-
-                            <g:sortableColumn property="coeficiente" title="${message(code: 'plano.coeficiente.label', default: 'Coeficiente')}" />
+                            <th>${message(code: 'plano.id.label', default: 'Id')}</th>
+                            <th>${message(code: 'plano.numParcelas.label', default: 'Num Parcelas')}</th>
+                            <th>${message(code: 'plano.coeficiente.label', default: 'Coeficiente')}</th>
 
                         </tr>
                     </thead>

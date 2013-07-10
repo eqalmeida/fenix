@@ -11,8 +11,16 @@
 </head>
 <body>
   <div class="nav">
-    <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-    <span class="menuButton"><g:link class="list" id="${emprestimoInstance.id}" target="_blank" action="print">Imprimir</g:link></span>
+    <span class="menuButton">
+      <g:link class="list" action="list">
+        <g:message code="default.list.label" args="[entityName]" />
+      </g:link>
+    </span>
+    <span class="menuButton">
+      <g:link class="list" id="${emprestimoInstance.id}" target="_blank" action="print">
+        Imprimir
+      </g:link>
+    </span>
   </div>
   <div class="body">
     <h1>Detalhes da Transação Nº ${fieldValue(bean: emprestimoInstance, field: "id")}</h1>
@@ -219,11 +227,13 @@
 
 
     <g:if test="${emprestimoInstance.parcelas}">
-      <h1>Parcelas</h1>
+
+    <br/>
 
       <div class="list" id="parcelaList">
       
         <table class='lista'>
+        <caption>Parcelas</caption>
           <thead>
             <tr>
 
@@ -257,7 +267,7 @@
           <g:each in="${emprestimoInstance.listaParcelas}" status="i" var="parcelaInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-              <td>
+              <td style="text-align: center;">
                 <g:link title="Exibir detalhes da parcela" action="show" controller="parcela" id="${parcelaInstance.id}">
                 ${parcelaInstance.numero}
               </g:link>
@@ -318,7 +328,7 @@
       </div>
     </g:if>
 
-    <h2>Observações</h2>
+    <br/>
     
     <div id="obsInc">
       <g:render template="obs" model="[emprestimoInstance: emprestimoInstance, obsList:obsList]" />

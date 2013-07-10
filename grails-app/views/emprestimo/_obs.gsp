@@ -1,17 +1,18 @@
 <%@ page import="fenix.Emprestimo; fenix.Observacao" %>
-
-<table class="noborder">
+<div class="list">
+<table>
+<caption>Observações</caption>
 <g:each in="${obsList}" var="o" status="i">
   <tr class="${((i % 2) == 0)?'cinza':'branco'}">
-    <td>
+    <td width="100%">
     <div class="obs-text ${o.ativo ? '' : 'cancelado'}">${o.obs}</div>
-    <div style="color:#999">
+    <div style="color:#777;">
       <strong><g:formatDate date="${o.data}"/></strong> / ${o.usuario}
     </div>
       
 
     </td>
-    <td>
+    <td nowrap="nowrap">
       
       <span class="linkn">
       <g:if test="${o.ativo}">
@@ -32,6 +33,7 @@
   </tr>
 </g:each>
 </table>
+</div>
 
 <div id="coments">
   <g:if test="${flash.erros}">

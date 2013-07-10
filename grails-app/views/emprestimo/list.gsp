@@ -18,16 +18,16 @@
             </g:each>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /> ${stat}</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
                 <table>
+                <caption><g:message code="default.list.label" args="[entityName]" /> ${stat}</caption>
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'emprestimo.id.label', default: 'Id')}" />
+                            <g:sortableColumn property="id" title="Num." />
 
                             <g:sortableColumn property="data" title="${message(code: 'emprestimo.data.label', default: 'Data')}" />
                         
@@ -39,7 +39,9 @@
                         
                             <th><g:message code="emprestimo.plano.label" default="Plano" /></th>
 
+                            <g:if test="${stat == ''}">
                             <th><g:message code="emprestimo.status.label" default="Status" /></th>
+                            </g:if>
                         
                             <g:sortableColumn property="valorLiberado" title="${message(code: 'emprestimo.valorLiberado.label', default: 'Valor Liberado')}" />
                         
@@ -49,7 +51,9 @@
                     <g:each in="${emprestimoInstanceList}" status="i" var="emprestimoInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${emprestimoInstance.id}">${fieldValue(bean: emprestimoInstance, field: "id")}</g:link></td>
+                            <td style="text-align: center;">
+                                <g:link action="show" id="${emprestimoInstance.id}">${fieldValue(bean: emprestimoInstance, field: "id")}</g:link>
+                            </td>
                         
                             <td>${formatDate(bean: emprestimoInstance, field: "data")}</td>
 
@@ -61,9 +65,11 @@
                         
                             <td>${fieldValue(bean: emprestimoInstance, field: "plano")}</td>
 
+                            <g:if test="${stat == ''}">
                             <td nowrap="nowrap">
                                 ${fieldValue(bean: emprestimoInstance, field: "statusStr")}
                             </td>
+                            </g:if>
 
                             <td nowrap="nowrap">
                                 <g:formatNumber number="${emprestimoInstance.valorLiberado}" type="currency" currencyType="BRL" />
