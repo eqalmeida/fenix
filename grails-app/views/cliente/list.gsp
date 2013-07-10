@@ -31,6 +31,7 @@
     </g:if>
 
     <div class="list">
+    <div class="table-new">
       <table>
         <thead>
           <tr>
@@ -73,6 +74,7 @@
         </g:each>
         </tbody>
       </table>
+    </div>
     </div>
     <div class="paginateButtons">
       <g:paginate total="${clienteInstanceTotal}" max="20" />

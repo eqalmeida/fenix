@@ -9,7 +9,9 @@ class LogController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 20, 100)
+        params.sort = "id"
+        params.order = "desc"
         [logInstanceList: Log.list(params), logInstanceTotal: Log.count()]
     }
 

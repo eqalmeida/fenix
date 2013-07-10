@@ -222,6 +222,7 @@
       <h1>Parcelas</h1>
 
       <div class="list" id="parcelaList">
+      
         <table class='lista'>
           <thead>
             <tr>
@@ -313,6 +314,7 @@
           </g:each>
           </tbody>
         </table>
+        
       </div>
     </g:if>
 

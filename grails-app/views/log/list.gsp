@@ -17,22 +17,16 @@
                 <table>
                     <thead>
                         <tr>
-                        
-                            <g:sortableColumn property="id" title="${message(code: 'log.id.label', default: 'Id')}" />
-                        
+
                             <th><g:message code="log.usuario.label" default="Usuario" /></th>
-                        
-                            <g:sortableColumn property="data" title="${message(code: 'log.data.label', default: 'Data')}" />
-                        
-                            <g:sortableColumn property="descricao" title="${message(code: 'log.descricao.label', default: 'Descricao')}" />
-                        
+                            <th>${message(code: 'log.data.label', default: 'Data')}</th>
+                            <th>${message(code: 'log.descricao.label', default: 'Descricao')}</th>
+
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${logInstanceList}" status="i" var="logInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                        
-                            <td><g:link action="show" id="${logInstance.id}">${fieldValue(bean: logInstance, field: "id")}</g:link></td>
                         
                             <td>${fieldValue(bean: logInstance, field: "usuario")}</td>
                         
