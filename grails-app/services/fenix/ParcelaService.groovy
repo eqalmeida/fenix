@@ -15,14 +15,16 @@ class ParcelaService {
      */
     void calculaAcrescimos(Parcela parcela){
 
-        def diasAtraso = (parcela.dataPagamento - parcela.vencimento);
+        int diasAtraso = (parcela.dataPagamento - parcela.vencimento);
         
         if (diasAtraso > parcela.emprestimo.diasTolerancia){
 
             //
             // Calcula juros diário.
             //
-            parcela.acrescimos = (parcela.taxaJurosAtraso * diasAtraso * parcela.valor / 100.0)
+            parcela.acrescimos = (parcela.taxaJurosAtraso * diasAtraso * parcela.valor / 100)
+
+            //println("Dias de atraso : " + diasAtraso)
             
             //
             // Acrescenta multa por atraso.
@@ -32,7 +34,7 @@ class ParcelaService {
             //
             // Acrescenta multa percentual
             //
-            parcela.acrescimos += (parcela.multaAtrasoPercent * parcela.valor / 100.0)
+            parcela.acrescimos += (parcela.multaAtrasoPercent * parcela.valor / 100)
 
             //
             // Arredonda na escala da moeda.

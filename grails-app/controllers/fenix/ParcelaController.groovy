@@ -136,7 +136,7 @@ class ParcelaController {
 
                                     resto.emprestimo = parcela.emprestimo
                                     resto.numero = parcela.numero
-                                    resto.vencimento = parcela.vencimento
+                                    resto.vencimento = parcela.dataPagamento
                                     resto.valor = (parcela.valorAtual - parcela.valorPago)
                                     resto.taxaJurosAtraso = parcela.taxaJurosAtraso
                                     
