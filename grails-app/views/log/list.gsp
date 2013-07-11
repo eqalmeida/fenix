@@ -16,25 +16,18 @@
             <div class="list">
                 <table>
                 <caption>Log de operações</caption>
-                    <thead>
-                        <tr>
-
-                            <th><g:message code="log.usuario.label" default="Usuario" /></th>
-                            <th>${message(code: 'log.data.label', default: 'Data')}</th>
-                            <th>${message(code: 'log.descricao.label', default: 'Descricao')}</th>
-
-                        </tr>
-                    </thead>
                     <tbody>
                     <g:each in="${logInstanceList}" status="i" var="logInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td>${fieldValue(bean: logInstance, field: "usuario")}</td>
-                        
-                            <td><g:formatDate date="${logInstance.data}" /></td>
-                        
-                            <td>${fieldValue(bean: logInstance, field: "descricao")}</td>
-                        
+                            <td>
+                                <p>${fieldValue(bean: logInstance, field: "descricao")}</p>
+                                <p style="color: #999;">
+                                    <strong><g:formatDate date="${logInstance.data}" /></strong>
+                                    <span> - </span>
+                                    ${fieldValue(bean: logInstance, field: "usuario")}
+                                </p>
+                            </td>
                         </tr>
                     </g:each>
                     </tbody>

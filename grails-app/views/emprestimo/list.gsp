@@ -23,7 +23,12 @@
             </g:if>
             <div class="list">
                 <table>
-                <caption><g:message code="default.list.label" args="[entityName]" /> ${stat}</caption>
+                <caption>
+                    <g:message code="default.list.label" args="[entityName]" />
+                    <g:if test="${stat}">
+                         <span> com status: ${stat}</span>
+                    </g:if>
+                </caption>
                     <thead>
                         <tr>
                         

@@ -18,11 +18,9 @@
     <br/>
     <g:form action="cobranca">
       <g:select name='ano' value="${ano}"
-                noSelection="${['null':'Selecione o ano...']}"
                 from='${anos}'
                 onchange="submit()"/>
       <g:select name='mes' value="${mes}"
-                noSelection="${['null':'Selecione o mês...']}"
                 optionKey="key" optionValue="value"
                 from='${meses}'
                 onchange="submit()"/>

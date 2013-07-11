@@ -44,7 +44,7 @@ class EmprestimoController {
                 def log = new Log()
                 log.usuario = session.usuario
                 log.data = new Date()
-                log.descricao = "Mudanca de Status do emprestimo:${emprestimo.id}, do cliente: ${emprestimo.cliente.nome} - Anterior: ${emprestimo.status} - Novo: ${newStatus}"
+                log.descricao = "Mudanca de Status do emprestimo: ${emprestimo.id}, do cliente: ${emprestimo.cliente.nome} - de \"${emprestimo.statusStr}\" para \"${Emprestimo.statusNames[newStatus]}\""
                 log.save(flush:true)
 
                 emprestimo.status = newStatus

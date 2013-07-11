@@ -5,6 +5,8 @@ import java.math.*
 class ParcelaController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static mesesMap = [1:'janeiro', 2:'fevereiro', 3:'março',4:'abril',5:'maio',6:'junho',7:'julho',8:'agosto',9:'setembro',10:'outubro',11:'novembro',12:'dezembro']
+
 
     def EmprestimoService
     def ParcelaService
@@ -223,7 +225,7 @@ class ParcelaController {
     def cobranca = {
         EmprestimoService.atualizarStatus()
 
-        def old = Parcela.executeQuery("select year(min(pc.vencimento)) from Parcela as pc where pc.pago = false" )
+        def old = Parcela.executeQuery("select year(min(pc.vencimento)) from Parcela as pc where pc.pago = false and pc.emprestimo.status > 2" )
 
         def hoje = new GregorianCalendar()
 
@@ -232,29 +234,22 @@ class ParcelaController {
         }else{
             old = old[0]
         }
-        def query
-        def lista
-        def size
-        def ano
-        def mes
-        def meses = [1:'janeiro', 2:'fevereiro', 3:'março',4:'abril',5:'maio',6:'junho',7:'julho',8:'agosto',9:'setembro',10:'outubro',11:'novembro',12:'dezembro']
         def anos = hoje.get(Calendar.YEAR)..old
         params.max = Math.min(params.max ? params.int('max') : 20, 100)
         params.offset = params.offset?params.int('offset'):1
 
-        if(params.ano && params.mes && params.mes != 'null' && params.ano != 'null'){
-            ano = params.int('ano')
-            mes = params.int('mes')
-            query = "from Parcela p where p.pago = false and p.vencimento < :hoje and year(p.vencimento) = :ano and month(p.vencimento) = :mes order by p.vencimento"
-            lista = Parcela.findAll(query,[hoje:hoje.time, ano: ano, mes: mes, max:params.max, offset:params.offset])
-            size = Parcela.findAll(query, [hoje:hoje.time, ano: ano, mes: mes]).size()
+        if(!(params.ano && params.mes && params.mes != 'null' && params.ano != 'null')){
+            params.ano = hoje.get(Calendar.YEAR)
+            params.mes = hoje.get(Calendar.MONTH) + 1
         }
-        else {
-            query = "from Parcela p where p.pago = false and p.vencimento < :hoje order by p.vencimento"
-            lista = Parcela.findAll(query, [hoje:hoje.time, max:params.max, offset:params.offset])
-            size = Parcela.findAll(query, [hoje:hoje.time]).size()
-        }
-        [parcelaInstanceList: lista, parcelaInstanceTotal: size, ano: params.ano, mes: params.mes, anos: anos, meses: meses ]
+
+        def ano = params.int('ano')
+        def mes = params.int('mes')
+        def query = "from Parcela p where p.emprestimo.status > 2 and p.pago = false and p.vencimento < :hoje and year(p.vencimento) = :ano and month(p.vencimento) = :mes order by p.vencimento"
+        def lista = Parcela.findAll(query,[hoje:hoje.time, ano: ano, mes: mes, max:params.max, offset:params.offset])
+        def size = Parcela.findAll(query, [hoje:hoje.time, ano: ano, mes: mes]).size()
+
+        [parcelaInstanceList: lista, parcelaInstanceTotal: size, ano: params.ano, mes: params.mes, anos: anos, meses: mesesMap ]
     }
 
     def create = {
