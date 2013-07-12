@@ -87,4 +87,45 @@ class ParcelaService {
 
     }
 
+    /**
+     * Forma segura excluir uma parcela.
+     * @param p Referência a parcela.
+     * @param session Referência para a sessão da aplicação.
+     */
+    def excluir(Parcela p, HttpSession session) {
+
+        def parcela = Parcela.get(p.id)
+
+        if(!parcela){
+            throw new ParcelaException(message: "Parcela inexistente")
+        }
+
+        def usuario = session["usuario"]
+
+        if(!usuario || !usuario.isAdmin()){
+            throw new ParcelaException(message: "Acesso negado")
+        }
+
+        if(parcela.principal){
+            throw new ParcelaException(message: "Esse tipo de parcela não pode ser excluido")
+        }
+
+        try{
+            def moeda = new DecimalFormat("#,##0.00")
+            def val = moeda.format(parcela.valor)    
+            
+
+            def logmessage = "A parcela n.: " + parcela.numero + " da transação n.: " + parcela.emprestimo.id + " do cliente: " + parcela.emprestimo.cliente + " no valor: " + val + " foi excluída."
+            def log = new Log(usuario:usuario, data: new Date(), descricao: logmessage)
+
+            log.save(flush: true)   
+            
+            parcela.delete(flush: true)     
+        }
+        catch(Exception ex){
+            throw new ParcelaException(message: ex.message, parcela: parcela)            
+        }
+
+    }
+
 }

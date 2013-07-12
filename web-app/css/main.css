@@ -371,12 +371,48 @@ th.desc a {
 
 /* DIALOG */
 
-.dialog table {
-    padding: 5px 0;
-    width: auto;
-    border-spacing: 0px;
-    background: #fff;
+.dialog {
+    margin-top: 10px;
+    background: #eee;
+    padding: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;   
+    display: block; 
 }
+
+.dialog table {
+    background: #fff;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: solid 1px #d8d8d8;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;    
+}
+
+.dialog table caption {
+    background: #e6f1f6;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    border: solid 1px #ccc;
+    border-bottom: none;
+    color: #777;
+}
+
+
+.dialog a {
+    color: #4183c4;
+    font-weight: normal;
+}
+.dialog a:hover {
+    color: #4183c4;
+    font-weight: normal;
+}
+
 
 .prop {
     padding: 1px;
@@ -384,17 +420,18 @@ th.desc a {
 }
 .prop .name {
     /*    width: 10px;*/
-    text-align: right;
+    /*text-align: right;*/
+    width: 1px;
     font-weight: bold;
     white-space: nowrap;
     vertical-align: baseline;
     border-bottom: inset 1px #eee;
     margin: 0px;
     border-spacing: 0px;
+    background-color: #f8f8f8;
 }
 .prop .value {
     /*    width: 90%;*/
-
     text-align: left;
     padding-right: 30px;
     vertical-align: baseline;
@@ -599,6 +636,7 @@ tr.cinza {
     padding: 10px;
     text-align: left;
     font-weight: bold;
+    font-size: 14px;
     border: solid 1px #ccc;
     border-bottom: none;
     color: #777;

@@ -23,12 +23,12 @@
     </span>
   </div>
   <div class="body">
-    <h1>Detalhes da Transação Nº ${fieldValue(bean: emprestimoInstance, field: "id")}</h1>
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
     </g:if>
     <div class="dialog">
       <table>
+      <caption>Detalhes da Transação Nº ${fieldValue(bean: emprestimoInstance, field: "id")}</caption>
         <tbody>
 
           <tr  class="prop" >
@@ -268,13 +268,18 @@
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
               <td style="text-align: center;">
-                <g:link title="Exibir detalhes da parcela" action="show" controller="parcela" id="${parcelaInstance.id}">
-                ${parcelaInstance.numero}
+                <g:link 
+                  title="Exibir detalhes da parcela" 
+                  action="show" 
+                  controller="parcela" 
+                  id="${parcelaInstance.id}">
+                  <g:if test="${parcelaInstance.principal==false}">*</g:if>
+                    ${parcelaInstance.numero}
               </g:link>
               </td>
 
               <td>
-                <div class="label ${parcelaInstance.pago?'greenlabel':(new Date() > parcelaInstance.vencimento)?'redlabel':'infolabel'}">
+                <div class="label ${parcelaInstance.pago?'greenlabel':(parcelaInstance.getDiasAtraso()>0)?'redlabel':'infolabel'}">
                   <g:formatDate date="${parcelaInstance.vencimento}" format="dd/MM/yyyy" />
                 </div>
               </td>

@@ -13,7 +13,6 @@
     </head>
     <body>
         <div class="body">
-            <h1>Pagamento de Parcela</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -27,6 +26,7 @@
                 <g:hiddenField name="version" value="${parcelaInstance?.version}" />
                 <div class="dialog">
                   <table cellpadding="0" cellspacing="0">
+                  <caption>Pagamento de Parcela</caption>
                         <tbody>
                         
                         <tr class="prop">
@@ -77,11 +77,44 @@
                             </tr>
 
                             <tr class="prop">
+                              <td valign="top" class="name">
+                                <g:message code="parcela.multaAtraso.label" default="Multa por atraso" />
+                              </td>
+
+                            <td valign="top" class="value"> 
+                              <g:formatNumber number="${parcelaInstance.multaAtraso}" type="currency" currencyType="BRL" />
+                            </td>
+
+                            </tr>
+
+                            <tr class="prop">
+                              <td valign="top" class="name">
+                                <g:message code="parcela.multaAtrasoPercent.label" default="Multa por atraso (%)" />
+                              </td>
+
+                            <td valign="top" class="value"> 
+                              ${parcelaInstance.multaAtrasoPercent}
+                            </td>
+
+                            </tr>
+
+                            <tr class="prop">
+                              <td valign="top" class="name"><g:message code="parcela.taxaJurosAtraso.label" default="taxaJurosAtraso" /></td>
+
+                            <td valign="top" class="value">${fieldValue(bean: parcelaInstance, field: "taxaJurosAtraso")} %</td>
+
+                            </tr>
+
+
+                            <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="valorAtual"><g:message code="parcela.valorAtual.label" default="Valor Atual" /></label>
                                 </td>
-                                <td valign="top" id="valorC">
+                                <td valign="top" style="font-weight: bold;">
+                                <div id="valorC">
                                     <g:formatNumber number="${parcelaInstance.valorAtual}" type="currency" currencyCode="BRL"/>
+
+                                </div>
                                 </td>
                             </tr>
 
@@ -105,6 +138,13 @@
                             class="save" 
                             action="regPagamento" 
                             value="Registrar Pagamento" />
+                    </span>
+
+                    <span class="button">
+                        <g:actionSubmit
+                            class="edit" 
+                            action="edit" 
+                            value="Editar" />
                     </span>
                 </div>
             </g:form>

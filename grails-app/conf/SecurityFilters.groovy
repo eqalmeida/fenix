@@ -12,6 +12,7 @@ class SecurityFilters {
                 if (!session.usuario && !(actionName in ["login"])){
                     session.actionName = actionName
                     session.controllerName = controllerName
+                    session.params = params
                     redirect(controller:"usuario", action:"login")
                     return false
                 }

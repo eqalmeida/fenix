@@ -14,12 +14,12 @@
     <span class="menuButton"><g:link class="list" id="${parcelaInstance.id}" target="_blank" action="print">Imprimir</g:link></span>
   </div>
   <div class="body">
-    <h1>Detalhes da Parcela</h1>
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
     </g:if>
     <div class="dialog">
       <table>
+      <caption>Detalhes da Parcela</caption>
         <tbody>
 
           <tr class="prop">
@@ -106,11 +106,32 @@
         </tr>
 
         <tr class="prop">
+          <td valign="top" class="name"><g:message code="parcela.pago.label" default="Pago" /></td>
+
+        <td valign="top" class="value"><g:formatBoolean boolean="${parcelaInstance?.pago}" /></td>
+
+        </tr>
+
+        <g:if test="${parcelaInstance.pago}">
+        <g:if test="${parcelaInstance.acrescimos > 0.0}">
+
+        <tr class="prop">
           <td valign="top" class="name"><g:message code="parcela.acrescimos.label" default="Acrescimos" /></td>
 
         <td valign="top" class="value"><g:formatNumber number="${parcelaInstance.acrescimos}" type="currency" currencyType="BRL"/></td>
 
         </tr>
+
+        <tr class="prop">
+          <td valign="top" class="name">
+            Valor corrigido
+          </td>
+
+        <td valign="top" class="value"><g:formatNumber number="${parcelaInstance.valorAtual}" type="currency" currencyType="BRL"/></td>
+
+        </tr>
+
+        </g:if>
 
         <tr class="prop">
           <td valign="top" class="name"><g:message code="parcela.valorPago.label" default="Valor Pago" /></td>
@@ -127,18 +148,13 @@
         </tr>
 
         <tr class="prop">
-          <td valign="top" class="name"><g:message code="parcela.pago.label" default="Pago" /></td>
-
-        <td valign="top" class="value"><g:formatBoolean boolean="${parcelaInstance?.pago}" /></td>
-
-        </tr>
-
-        <tr class="prop">
           <td valign="top" class="name"><g:message code="parcela.usuario.label" default="Usuario" /></td>
 
         <td valign="top" class="value"><g:link controller="usuario" action="show" id="${parcelaInstance?.usuario?.id}">${parcelaInstance?.usuario?.encodeAsHTML()}</g:link></td>
 
         </tr>
+
+        </g:if>
 
         </tbody>
       </table>
@@ -155,10 +171,20 @@
         </span>
         </g:if>
         <g:else>
+
           <span class="button">
             <g:actionSubmit class="edit" action="edit" 
               value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
           </span>
+
+          <span class="button">
+              <g:actionSubmit
+                  class="save" 
+                  action="pagar" 
+                  value="Pagamento" />
+          </span>
+
+
         </g:else>
 
       </g:form>

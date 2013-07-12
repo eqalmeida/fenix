@@ -64,19 +64,24 @@ class ParcelaController {
                 return true
             }
 
-            def anteriores = Parcela.createCriteria().list {
-                and{
-                    eq('emprestimo', parcelaInstance.emprestimo)    
-                    eq('pago', false) 
-                    lt('vencimento', parcelaInstance.vencimento)   
-                }
-            }
+            
+            if(parcelaInstance.principal){
 
-            if(anteriores.size() > 0){
-                session["parcelaId"] = 0
-                flash.message = "A parcela anterior precisa ser paga primeiro!"
-                redirect(action:"show", controller:"emprestimo", id:parcelaInstance.emprestimo.id)
-                return true
+                def anteriores = Parcela.createCriteria().list {
+                    and{
+                        eq('emprestimo', parcelaInstance.emprestimo)    
+                        eq('pago', false)
+                        eq('principal', true) 
+                        lt('vencimento', parcelaInstance.vencimento)   
+                    }
+                }
+
+                if(anteriores.size() > 0){
+                    session["parcelaId"] = 0
+                    flash.message = "A parcela anterior precisa ser paga primeiro!"
+                    redirect(action:"show", controller:"emprestimo", id:parcelaInstance.emprestimo.id)
+                    return true
+                }
             }
 
             if( (!session["parcelaId"]) ||
@@ -139,6 +144,7 @@ class ParcelaController {
                                     resto.vencimento = parcela.dataPagamento
                                     resto.valor = (parcela.valorAtual - parcela.valorPago)
                                     resto.taxaJurosAtraso = parcela.taxaJurosAtraso
+                                    resto.principal = false
                                     
                                     if(parcela.dataPagamento > parcela.vencimento) {
                                         resto.multaAtraso = 0.0
@@ -382,27 +388,47 @@ class ParcelaController {
 
     def delete = {
 
-        if(session.usuario.perfil != "admin") {
-            flash.message = "Acesso negado"
-            return false
-        }
-
-
         def parcelaInstance = Parcela.get(params.id)
-        if (parcelaInstance) {
-            try {
-                parcelaInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
-                redirect(action: "list")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
-                redirect(action: "show", id: params.id)
-            }
+
+        try{
+            def emprestimoId = parcelaInstance.emprestimo.id
+            flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
+            parcelaService.excluir(parcelaInstance, session)
+            redirect(controller: "emprestimo" ,action: "show", id: emprestimoId)
         }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
-            redirect(action: "list")
+        catch(ParcelaException pe){
+            flash.message = pe.message
+            redirect(action: "show", id: params.id)
         }
+
+        // if(session.usuario.perfil != "admin") {
+        //     flash.message = "Acesso negado"
+        //     return false
+        // }
+
+
+        // def parcelaInstance = Parcela.get(params.id)
+        // if (parcelaInstance) {
+
+        //     if(parcelaInstance.principal){
+        //         flash.message = "Esse tipo de parcela não pode ser excluída"
+        //         return false
+        //     }
+
+        //     try {
+        //         def emprestimoId = parcelaInstance.emprestimo.id
+        //         parcelaInstance.delete(flush: true)
+        //         flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
+        //         redirect(controller: "emprestimo" ,action: "show", id: emprestimoId)
+        //     }
+        //     catch (org.springframework.dao.DataIntegrityViolationException e) {
+        //         flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
+        //         redirect(action: "show", id: params.id)
+        //     }
+        // }
+        // else {
+        //     flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
+        //     redirect(action: "list")
+        // }
     }
 }

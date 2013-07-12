@@ -12,7 +12,6 @@
     </head>
     <body>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -26,6 +25,7 @@
                 <g:hiddenField name="version" value="${parcelaInstance?.version}" />
                 <div class="dialog">
                     <table>
+                    <caption><g:message code="default.edit.label" args="[entityName]" /></caption>
                         <tbody>
 
                             <tr class="prop">

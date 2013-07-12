@@ -18,7 +18,7 @@ class UsuarioController {
                     if(usuario.ativo){
                         session.usuario = usuario
                         if(session.actionName){
-                            redirect(controller:session.controllerName, action:session.actionName)
+                            redirect(controller:session.controllerName, action:session.actionName, params: session.params)
                         }else{
                             redirect(controller:"cliente", action:"list")
                         }

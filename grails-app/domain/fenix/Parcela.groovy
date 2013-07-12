@@ -17,8 +17,9 @@ class Parcela {
     Date dataPagamento
     Boolean pago = false
     Usuario usuario
+    Boolean principal = true
 
-    static transients = ["valorAtual", "valorFaltante"]
+    static transients = ["valorAtual", "valorFaltante", "diasAtraso"]
 
     static constraints = {
         emprestimo()
@@ -33,6 +34,7 @@ class Parcela {
         dataPagamento(nullable:true)
         pago()
         usuario(nullable:true)
+        principal()
     }
 
     def atualizaValorAtual(){
@@ -49,5 +51,16 @@ class Parcela {
             return getValorAtual()
         }
         return(getValorAtual() - valorPago)
+    }
+
+    int getDiasAtraso(){
+        if(this.pago){
+            return 0
+        }
+
+        def hoje = new Date()
+        int diasAtraso = hoje - this.vencimento
+
+        return(diasAtraso > 0? diasAtraso: 0)
     }
 }
