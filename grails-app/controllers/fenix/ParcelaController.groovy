@@ -77,10 +77,10 @@ class ParcelaController {
                 }
 
                 if(anteriores.size() > 0){
-                    session["parcelaId"] = 0
-                    flash.message = "A parcela anterior precisa ser paga primeiro!"
-                    redirect(action:"show", controller:"emprestimo", id:parcelaInstance.emprestimo.id)
-                    return true
+                    // session["parcelaId"] = 0
+                    flash.message = "Alerta: Existem parcelas mais antigas não pagas!"
+                    // redirect(action:"show", controller:"emprestimo", id:parcelaInstance.emprestimo.id)
+                    // return true
                 }
             }
 
