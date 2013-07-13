@@ -18,9 +18,11 @@ class SecurityFilters {
                 }
                 else if(session.usuario)
                 {
-                    def u = Usuario.get(session.usuario.id)
-                    if(u.version != session.usuario.version){
-                        session.usuario = u
+                    def u = Usuario.read(session.usuario.id)
+                    session.usuario = u
+
+                    if(!u || (u?.ativo == false)){
+                        session.usuario = null
                     }
                 }
 

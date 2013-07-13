@@ -90,9 +90,9 @@ class ParcelaService {
     /**
      * Forma segura excluir uma parcela.
      * @param p Referência a parcela.
-     * @param session Referência para a sessão da aplicação.
+     * @param user Referência para o usuário logado.
      */
-    def excluir(Parcela p, HttpSession session) {
+    def excluir(Parcela p, Usuario user) {
 
         def parcela = Parcela.get(p.id)
 
@@ -100,9 +100,9 @@ class ParcelaService {
             throw new ParcelaException(message: "Parcela inexistente")
         }
 
-        def usuario = session["usuario"]
+        def usuario = Usuario.get(user.id)
 
-        if(!usuario || !usuario.isAdmin()){
+        if(!usuario || !usuario.isAdmin() || (usuario.ativo==false)){
             throw new ParcelaException(message: "Acesso negado")
         }
 

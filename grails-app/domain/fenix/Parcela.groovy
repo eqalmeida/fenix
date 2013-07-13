@@ -53,14 +53,25 @@ class Parcela {
         return(getValorAtual() - valorPago)
     }
 
-    int getDiasAtraso(){
+    /**
+     * Retorna  numero de dias de atraso relativo a uma data.
+     * @param data Data de referência.
+     */
+    int getDiasAtraso(Date data){
         if(this.pago){
             return 0
         }
 
-        def hoje = new Date()
-        int diasAtraso = hoje - this.vencimento
+        int diasAtraso = data - this.vencimento
 
         return(diasAtraso > 0? diasAtraso: 0)
     }
+
+    /**
+     * Retorna  numero de dias de atraso relativo a hoje.
+     */
+    int getDiasAtraso(){
+        return getDiasAtraso(new Date())
+    }
+
 }

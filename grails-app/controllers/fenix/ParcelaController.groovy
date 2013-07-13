@@ -119,7 +119,7 @@ class ParcelaController {
 
                         if(parcela.valorPago == null || parcela.valorPago == 0){
                             parcela.errors.rejectValue("valorPago", "Favor informar o Valor Pago")
-                            forward(action:"pagar", controller:"parcela", id:parcela.id)
+                            render(view:"pagar" , model:[parcelaInstance:parcela])
                             return
                         }
 
@@ -130,32 +130,47 @@ class ParcelaController {
                         
                         if((parcela.valorPago > valorDev)){
                             parcela.errors.rejectValue("valorPago", "O Valor pago não pode ser maior do que o valor devido")
-                            forward(action:"pagar", controller:"parcela", id:parcela.id, parcelaInstance:parcela)
+                            render(view:"pagar" , model:[parcelaInstance:parcela])
                         }else{
                             parcela.usuario = session.usuario
                             parcela.pago = true
-                            if(parcela.save()){
+
+                            if(parcela.save(flush: true)){
 
                                 if(parcela.valorPago < valorDev){
                                     def resto = new Parcela()
 
                                     resto.emprestimo = parcela.emprestimo
                                     resto.numero = parcela.numero
-                                    resto.vencimento = parcela.dataPagamento
                                     resto.valor = (parcela.valorAtual - parcela.valorPago)
                                     resto.taxaJurosAtraso = parcela.taxaJurosAtraso
                                     resto.principal = false
+
+                                    int diasAtraso = (parcela.dataPagamento - parcela.vencimento);
                                     
-                                    if(parcela.dataPagamento > parcela.vencimento) {
+                                    if(diasAtraso > 0) {
+
+                                        //
+                                        // Se a parcela estava atrasada, a data de vencimento passa a ser a 
+                                        // data de pagamento.
+                                        // As multas são zeradas pois supostamente já foram cobradas.
+                                        //
+                                        resto.vencimento = parcela.dataPagamento
                                         resto.multaAtraso = 0.0
                                         resto.multaAtrasoPercent = 0.0
                                     }
                                     else{
+
+                                        //
+                                        // A parcela anterior não estava vencida, então mantemos a data de vencimento.
+                                        // As multas também são mantidas.
+                                        //
+                                        resto.vencimento = parcela.vencimento
                                         resto.multaAtraso = parcela.multaAtraso
                                         resto.multaAtrasoPercent = parcela.multaAtrasoPercent
                                     }
 
-                                    resto.save()
+                                    resto.save(flush: true)
 
                                     flash.message = "Pagamento parcial registrado!"
                                 }
@@ -393,7 +408,7 @@ class ParcelaController {
         try{
             def emprestimoId = parcelaInstance.emprestimo.id
             flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'parcela.label', default: 'Parcela'), params.id])}"
-            parcelaService.excluir(parcelaInstance, session)
+            parcelaService.excluir(parcelaInstance, session["usuario"])
             redirect(controller: "emprestimo" ,action: "show", id: emprestimoId)
         }
         catch(ParcelaException pe){
