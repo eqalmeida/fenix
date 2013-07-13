@@ -13,12 +13,12 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1>Detalhes do Cliente Cód: ${fieldValue(bean: clienteInstance, field: "id")}</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
                 <table>
+                <caption>Detalhes do Cliente Cód: ${fieldValue(bean: clienteInstance, field: "id")}</caption>
                     <tbody>
                     
                         <tr class="prop">
@@ -159,9 +159,9 @@
 
             <g:if test="${clienteInstance.emprestimos}">
 
-            <h1>Transações do Cliente</h1>
             <div class="list">
                 <table>
+                <caption>Transações do Cliente</caption>
                     <thead>
                         <tr>
 

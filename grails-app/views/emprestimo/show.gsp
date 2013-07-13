@@ -265,7 +265,8 @@
           </thead>
           <tbody>
           <g:each in="${emprestimoInstance.listaParcelas}" status="i" var="parcelaInstance">
-            <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+            
+            <tr class="${(i % 2) == 0 ? 'odd' : 'even'} ${parcelaInstance.pago?'':'naoPaga'}">
 
               <td style="text-align: center;">
                 <g:link 
