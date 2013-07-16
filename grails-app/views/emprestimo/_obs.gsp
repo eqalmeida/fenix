@@ -1,29 +1,4 @@
-<g:setProvider library="jquery"/>
-
 <%@ page import="fenix.Emprestimo; fenix.Observacao" %>
-
-<script type="text/javascript">
-
-$(document).ready(function() {
-    $(".deleted").hide();
-    $("#btnHide").hide();
-
-    $("#btnShow").click(function(){
-      $("#btnHide").show();
-      $("#btnShow").hide();
-      $(".deleted").show(1000);
-    });
-
-    $("#btnHide").click(function(){
-      $("#btnHide").hide();
-      $("#btnShow").show();
-      $(".deleted").hide();
-    });
-});  
-
-</script>
-
-
 <div class="list">
 <table>
 <caption>Observações</caption>
@@ -60,10 +35,6 @@ $(document).ready(function() {
 </table>
 </div>
 <br/>
-<button id="btnShow">Exibir excluídas</button>
-<button id="btnHide">Ocultar excluídas</button>
-
-
 
 <div id="coments">
   <g:if test="${flash.erros}">
