@@ -42,9 +42,9 @@
 
         <g:sortableColumn property="vencimento" title="${message(code: 'parcela.vencimento.label', default: 'Vencimento')}" />
 
-        <g:sortableColumn property="previsaoDePagamento" title="${message(code: 'parcela.previsaoDePagamento.label', default: 'Previsão de pagamento')}" />
+        <g:sortableColumn property="previsaoDePagamento" title="${message(code: 'parcela.previsaoDePagamento.label', default: 'Prev. pag.')}" />
 
-        <g:sortableColumn property="valor" title="${message(code: 'parcela.valor.label', default: 'Valor')}" />
+        <g:sortableColumn property="valor" title="Val. Parcela" />
 
         <th>Opções</th>
         </tr>
@@ -65,11 +65,17 @@
               </g:link>
             </td>
 
-            <td>${fieldValue(bean: parcelaInstance, field: "emprestimo.statusStr")}</td>
+            <td>
+              <div class="label ${parcelaInstance.emprestimo.status==1?'greenlabel':'redlabel'}">
+                ${fieldValue(bean: parcelaInstance, field: "emprestimo.statusStr")}
+              </div>
+            </td>
 
             <td>${fieldValue(bean: parcelaInstance, field: "emprestimo.especie")}</td>
 
-            <td><g:formatDate date="${parcelaInstance?.vencimento}" /></td>
+            <td>
+              ${parcelaInstance?.vencimentoStr}
+            </td>
 
           <td><g:formatDate date="${parcelaInstance?.previsaoDePagamento}" /></td>
 

@@ -266,7 +266,7 @@ class ParcelaController {
 
         def ano = params.int('ano')
         def mes = params.int('mes')
-        def query = "from Parcela p where p.emprestimo.status > 2 and p.pago = false and p.vencimento < :hoje and year(p.vencimento) = :ano and month(p.vencimento) = :mes order by p.vencimento"
+        def query = "from Parcela p where (p.emprestimo.status > 2 OR p.emprestimo.status = 1) and p.pago = false and p.vencimento <= :hoje and year(p.vencimento) = :ano and month(p.vencimento) = :mes order by p.vencimento"
         def lista = Parcela.findAll(query,[hoje:hoje.time, ano: ano, mes: mes, max:params.max, offset:params.offset])
         def size = Parcela.findAll(query, [hoje:hoje.time, ano: ano, mes: mes]).size()
 

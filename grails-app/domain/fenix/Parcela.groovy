@@ -19,7 +19,7 @@ class Parcela {
     Usuario usuario
     Boolean principal = true
 
-    static transients = ["valorAtual", "valorFaltante", "diasAtraso"]
+    static transients = ["valorAtual", "valorFaltante", "diasAtraso", "vencimentoStr"]
 
     static constraints = {
         emprestimo()
@@ -72,6 +72,22 @@ class Parcela {
      */
     int getDiasAtraso(){
         return getDiasAtraso(new Date())
+    }
+
+    String getVencimentoStr(){
+        def today = new Date()
+        def dif = today - this.vencimento;
+
+        if(dif == 0){
+            return "Hoje"
+        }
+        else if(dif == 1){
+            return "Ontem"
+        }
+        else{
+            return this.vencimento.format('dd/MM/yyyy')
+        }
+
     }
 
 }
